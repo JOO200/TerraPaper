@@ -9,10 +9,10 @@ Subject: [PATCH] TerraPaper POM Changes
  2 files changed, 39 insertions(+), 9 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index c3844581..d2b8dde8 100644
+index 55679af92..d89d5650e 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -1,12 +1,13 @@
+@@ -1,12 +1,19 @@
  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
      <modelVersion>4.0.0</modelVersion>
@@ -24,10 +24,16 @@ index c3844581..d2b8dde8 100644
      <url>https://papermc.io</url>
 -
 +-->
++    <artifactId>terrapaper</artifactId>
++    <packaging>jar</packaging>
++    <version>1.15.2-R0.1-SNAPSHOT</version>
++    <name>TerraPaper-Server</name>
++    <url>https://terraconia.de</url>
++	
      <properties>
+         <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-         <api.version>unknown</api.version>
-@@ -20,16 +21,21 @@
+@@ -21,16 +28,16 @@
      </properties>
  
      <parent>
@@ -40,62 +46,24 @@ index c3844581..d2b8dde8 100644
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-+    <artifactId>terrapaper</artifactId>
-+    <packaging>jar</packaging>
-+    <version>dev-1.15.2-R0.1-SNAPSHOT</version>
-+    <name>TerraPaper-Server</name>
-+
      <dependencies>
          <dependency>
 -            <groupId>com.destroystokyo.paper</groupId>
 -            <artifactId>paper-api</artifactId>
-+            <groupId>de.terrapaper</groupId>
++            <groupId>de.terraconia</groupId>
 +            <artifactId>terrapaper-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
-@@ -86,6 +92,30 @@
-             <version>6.2.1</version>
-             <scope>compile</scope>
-         </dependency>
-+        <!--<dependency>
-+            <groupId>com.zaxxer</groupId>
-+            <artifactId>HikariCP</artifactId>
-+            <version>2.4.1</version>
-+            <scope>compile</scope>
-+        </dependency>
-+        <!-- json-smart -->
-+        <dependency>
-+            <groupId>net.minidev</groupId>
-+            <artifactId>json-smart</artifactId>
-+            <version>1.1.1</version>
-+            <type>jar</type>
-+            <scope>compile</scope>
-+        </dependency>
-+        <dependency>
-+            <groupId>biz.paluch.redis</groupId>
-+            <artifactId>lettuce</artifactId>
-+            <version>4.0.Final</version>
-+        </dependency>
-+        <dependency>
-+            <groupId>org.json</groupId>
-+            <artifactId>json</artifactId>
-+            <version>20090211</version>
-+        </dependency>-->
-         <dependency>
-             <groupId>org.xerial</groupId>
-             <artifactId>sqlite-jdbc</artifactId>
-@@ -135,8 +165,8 @@
+@@ -143,7 +150,7 @@
  
      <!-- This builds a completely 'ready to start' jar with all dependencies inside -->
      <build>
 -        <finalName>paper-${minecraft.version}</finalName>
--        <defaultGoal>clean install</defaultGoal> <!-- Paper -->
 +        <finalName>terrapaper-${minecraft.version}</finalName>
-+        <defaultGoal>clean install</defaultGoal> <!-- Paper -->
+         <defaultGoal>clean install</defaultGoal> <!-- Paper -->
          <plugins>
              <plugin>
-                 <groupId>com.lukegb.mojo</groupId>
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 index 674096ca..0f7a5ab7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
@@ -105,7 +73,7 @@ index 674096ca..0f7a5ab7 100644
          String result = "Unknown-Version";
  
 -        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/com.destroystokyo.paper/paper-api/pom.properties");
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/de.terraconia/terrapaper-api/pom.properties"); // TerraPaper
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/de.terraconia/terrapaper-api/pom.properties");
          Properties properties = new Properties();
  
          if (stream != null) {
