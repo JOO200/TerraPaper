@@ -1,0 +1,25 @@
+From a7fc9db43b10085672c403411232be1a25e5af2c Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Sun, 8 Mar 2020 15:41:03 +0100
+Subject: [PATCH] Deny cactus drops
+
+---
+ src/main/java/net/minecraft/server/BlockCactus.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/main/java/net/minecraft/server/BlockCactus.java b/src/main/java/net/minecraft/server/BlockCactus.java
+index 3524fcb92..fba98e650 100644
+--- a/src/main/java/net/minecraft/server/BlockCactus.java
++++ b/src/main/java/net/minecraft/server/BlockCactus.java
+@@ -19,7 +19,7 @@ public class BlockCactus extends Block {
+     @Override
+     public void tick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, Random random) {
+         if (!iblockdata.canPlace(worldserver, blockposition)) {
+-            worldserver.b(blockposition, true);
++            worldserver.b(blockposition, false);     // TerraPaper: Don't drop items
+         } else {
+             if (worldserver.paperConfig.fixZeroTickInstantGrowFarms && !randomTick) return; // Paper - fix MC-113809
+             BlockPosition blockposition1 = blockposition.up();
+-- 
+2.24.1.windows.2
+

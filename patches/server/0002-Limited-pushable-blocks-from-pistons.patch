@@ -1,21 +1,18 @@
-From fce776757df967e05a9129aaf3d5fe3e1b70577c Mon Sep 17 00:00:00 2001
+From befd590a4161250f5d1091d7574e1b8426cd482f Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sat, 7 Mar 2020 22:53:11 +0100
-Subject: [PATCH] =?UTF-8?q?TerraPaper:=20Liste=20blockierbarer=20Bl=C3=B6c?=
- =?UTF-8?q?ke=20hinzugef=C3=BCgt?=
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] Limited pushable blocks from pistons
 
+fixed mapping fuer bloecke
 ---
  src/main/java/net/minecraft/server/Block.java | 5 +++++
  1 file changed, 5 insertions(+)
 
 diff --git a/src/main/java/net/minecraft/server/Block.java b/src/main/java/net/minecraft/server/Block.java
-index 0b43d21f..465ee345 100644
+index e40375b67..2655643c6 100644
 --- a/src/main/java/net/minecraft/server/Block.java
 +++ b/src/main/java/net/minecraft/server/Block.java
-@@ -578,6 +578,11 @@ public class Block implements IMaterial {
+@@ -596,6 +596,11 @@ public class Block implements IMaterial {
  
      @Deprecated
      public EnumPistonReaction getPushReaction(IBlockData iblockdata) {

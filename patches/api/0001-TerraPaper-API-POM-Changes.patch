@@ -1,14 +1,14 @@
-From 50eb6132e936766b0f446c240dc9caf7ae65c696 Mon Sep 17 00:00:00 2001
+From 6858306a79ea5ffc2c6e69c5ffdadd69d6d7e9ce Mon Sep 17 00:00:00 2001
 From: Joo200 <joo200@terraconia.co>
 Date: Tue, 8 Jan 2013 23:50:41 -0500
 Subject: [PATCH] TerraPaper-API POM Changes
 
 ---
- pom.xml | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ pom.xml | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/pom.xml b/pom.xml
-index 3347be41..5d067b3e 100644
+index 2cb97140..6b90211c 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -2,6 +2,7 @@
@@ -38,5 +38,5 @@ index 3347be41..5d067b3e 100644
      <properties>
          <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
 -- 
-2.19.1
+2.24.1.windows.2
 

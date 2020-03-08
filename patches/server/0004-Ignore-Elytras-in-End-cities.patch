@@ -1,0 +1,31 @@
+From f589dfb19c756cd16c4d573ac46614d7e3071ba9 Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Sun, 8 Mar 2020 16:56:28 +0100
+Subject: [PATCH] Ignore Elytras in End cities
+
+---
+ src/main/java/net/minecraft/server/WorldGenEndCityPieces.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/main/java/net/minecraft/server/WorldGenEndCityPieces.java b/src/main/java/net/minecraft/server/WorldGenEndCityPieces.java
+index afeeffa46..f3e2227ad 100644
+--- a/src/main/java/net/minecraft/server/WorldGenEndCityPieces.java
++++ b/src/main/java/net/minecraft/server/WorldGenEndCityPieces.java
+@@ -279,12 +279,12 @@ public class WorldGenEndCityPieces {
+                 entityshulker.setPosition((double) blockposition.getX() + 0.5D, (double) blockposition.getY() + 0.5D, (double) blockposition.getZ() + 0.5D);
+                 entityshulker.g(blockposition);
+                 generatoraccess.addEntity(entityshulker);
+-            } else if (s.startsWith("Elytra")) {
++            } /*else if (s.startsWith("Elytra")) { // TerraPaper Start: Ignore Elytras in End Cities
+                 EntityItemFrame entityitemframe = new EntityItemFrame(generatoraccess.getMinecraftWorld(), blockposition, this.e.a(EnumDirection.SOUTH));
+ 
+                 entityitemframe.setItem(new ItemStack(Items.ELYTRA), false);
+                 generatoraccess.addEntity(entityitemframe);
+-            }
++            }*/ // TerraPaper End
+ 
+         }
+     }
+-- 
+2.24.1.windows.2
+

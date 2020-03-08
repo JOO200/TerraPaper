@@ -1,12 +1,12 @@
-From ecafa5e60c3cc634632bdb3e3885ebe6f1c410b6 Mon Sep 17 00:00:00 2001
+From f821912974f90b7da159cd86f184af0b8cacc234 Mon Sep 17 00:00:00 2001
 From: Joo200 <joo200@terraconia.de>
 Date: Wed, 31 Oct 2012 23:26:58 -0400
 Subject: [PATCH] TerraPaper POM Changes
 
 ---
- pom.xml                                       | 46 +++++++++++++++----
+ pom.xml                                       | 21 ++++++++++++-------
  .../bukkit/craftbukkit/util/Versioning.java   |  2 +-
- 2 files changed, 39 insertions(+), 9 deletions(-)
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
 index 55679af92..d89d5650e 100644
@@ -65,7 +65,7 @@ index 55679af92..d89d5650e 100644
          <plugins>
              <plugin>
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index 674096ca..0f7a5ab7 100644
+index 674096cab..e822855d1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
@@ -78,5 +78,5 @@ index 674096ca..0f7a5ab7 100644
  
          if (stream != null) {
 -- 
-2.19.1
+2.24.1.windows.2
 
