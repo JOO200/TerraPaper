@@ -11,33 +11,32 @@ diff --git a/pom.xml b/pom.xml
 index 3347be41..5d067b3e 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -2,7 +2,7 @@
+@@ -2,6 +2,7 @@
  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
      <modelVersion>4.0.0</modelVersion>
--
 +<!--
      <parent>
          <groupId>com.destroystokyo.paper</groupId>
          <artifactId>paper-parent</artifactId>
-@@ -16,6 +16,17 @@
+@@ -16,6 +17,17 @@
      <name>Paper-API</name>
      <url>https://github.com/PaperMC/Paper</url>
      <description>An enhanced plugin API for Minecraft servers.</description>
 +-->
-+    <parent>
-+        <groupId>de.terraconia</groupId>
-+        <artifactId>terrapaper-parent</artifactId>
-+        <version>dev-1.15.2-R0.1-SNAPSHOT</version>
-+        <relativePath>../pom.xml</relativePath>
-+    </parent>
-+
-+    <artifactId>terrapaper-api</artifactId>
-+    <version>dev-1.15.2-R0.1-SNAPSHOT</version>
-+    <name>TerraPaper-API</name>
++	<parent>
++		<groupId>de.terraconia</groupId>
++		<artifactId>terrapaper-parent</artifactId>
++		<version>dev-1.15.2-R0.1-SNAPSHOT</version>
++		<relativePath>../pom.xml</relativePath>
++	</parent>
++	
++	<artifactId>terrapaper-api</artifactId>
++	<version>dev-1.15.2-R0.1-SNAPSHOT</version>
++	<name>TerraPaper-API</name>
  
      <properties>
-         <!-- Paper - #Logic -->
+         <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
 -- 
 2.19.1
 
