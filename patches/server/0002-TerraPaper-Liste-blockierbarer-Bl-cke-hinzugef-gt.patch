@@ -21,7 +21,7 @@ index 0b43d21f..465ee345 100644
      public EnumPistonReaction getPushReaction(IBlockData iblockdata) {
 +        // TerraPaper -- start block materials
 +        List<String> blocked = com.destroystokyo.paper.PaperConfig.config.getStringList("blockedPistonMaterials");
-+        if(blocked.contains(m())) return EnumPistonReaction.BLOCK;
++        if(blocked.contains(k())) return EnumPistonReaction.BLOCK;
 +        // TerraPaper -- end
 +
          return this.material.getPushReaction();
