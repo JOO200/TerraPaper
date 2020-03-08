@@ -1,7 +1,7 @@
 From ecafa5e60c3cc634632bdb3e3885ebe6f1c410b6 Mon Sep 17 00:00:00 2001
-From: Aikar <aikar@aikar.co>
+From: Joo200 <joo200@terraconia.de>
 Date: Wed, 31 Oct 2012 23:26:58 -0400
-Subject: [PATCH] EmpireCraft POM Changes
+Subject: [PATCH] TerraPaper POM Changes
 
 ---
  pom.xml                                       | 46 +++++++++++++++----
@@ -19,7 +19,7 @@ index c3844581..d2b8dde8 100644
 +<!--
      <artifactId>paper</artifactId>
      <packaging>jar</packaging>
-     <version>1.13.2-R0.1-SNAPSHOT</version>
+     <version>1.15.2-R0.1-SNAPSHOT</version>
      <name>Paper</name>
      <url>https://papermc.io</url>
 -
@@ -34,23 +34,23 @@ index c3844581..d2b8dde8 100644
 -        <groupId>com.destroystokyo.paper</groupId>
 -        <artifactId>paper-parent</artifactId>
 -        <version>dev-SNAPSHOT</version>
-+        <groupId>com.empireminecraft</groupId>
-+        <artifactId>empirecraft-parent</artifactId>
-+        <version>dev-1.12-R0.1-SNAPSHOT</version>
++        <groupId>de.terraconia</groupId>
++        <artifactId>terrapaper-parent</artifactId>
++        <version>dev-1.15.2-R0.1-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-+    <artifactId>empirecraft</artifactId>
++    <artifactId>terrapaper</artifactId>
 +    <packaging>jar</packaging>
-+    <version>dev-1.12-R0.1-SNAPSHOT</version>
-+    <name>EmpireCraft-Server</name>
++    <version>dev-1.15.2-R0.1-SNAPSHOT</version>
++    <name>TerraPaper-Server</name>
 +
      <dependencies>
          <dependency>
 -            <groupId>com.destroystokyo.paper</groupId>
 -            <artifactId>paper-api</artifactId>
-+            <groupId>com.empireminecraft</groupId>
-+            <artifactId>empirecraft-api</artifactId>
++            <groupId>de.terrapaper</groupId>
++            <artifactId>terrapaper-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
@@ -58,7 +58,7 @@ index c3844581..d2b8dde8 100644
              <version>6.2.1</version>
              <scope>compile</scope>
          </dependency>
-+        <dependency>
++        <!--<dependency>
 +            <groupId>com.zaxxer</groupId>
 +            <artifactId>HikariCP</artifactId>
 +            <version>2.4.1</version>
@@ -81,7 +81,7 @@ index c3844581..d2b8dde8 100644
 +            <groupId>org.json</groupId>
 +            <artifactId>json</artifactId>
 +            <version>20090211</version>
-+        </dependency>
++        </dependency>-->
          <dependency>
              <groupId>org.xerial</groupId>
              <artifactId>sqlite-jdbc</artifactId>
@@ -91,8 +91,8 @@ index c3844581..d2b8dde8 100644
      <build>
 -        <finalName>paper-${minecraft.version}</finalName>
 -        <defaultGoal>clean install</defaultGoal> <!-- Paper -->
-+        <finalName>empirecraft</finalName>
-+        <defaultGoal>install</defaultGoal> <!-- Paper -->
++        <finalName>terrapaper-${minecraft.version}</finalName>
++        <defaultGoal>clean install</defaultGoal> <!-- Paper -->
          <plugins>
              <plugin>
                  <groupId>com.lukegb.mojo</groupId>
@@ -105,7 +105,7 @@ index 674096ca..0f7a5ab7 100644
          String result = "Unknown-Version";
  
 -        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/com.destroystokyo.paper/paper-api/pom.properties");
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/com.empireminecraft/empirecraft-api/pom.properties"); // EMC
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/de.terraconia/terrapaper-api/pom.properties"); // TerraPaper
          Properties properties = new Properties();
  
          if (stream != null) {

@@ -1,7 +1,7 @@
 From 50eb6132e936766b0f446c240dc9caf7ae65c696 Mon Sep 17 00:00:00 2001
-From: Aikar <aikar@aikar.co>
+From: Joo200 <joo200@terraconia.co>
 Date: Tue, 8 Jan 2013 23:50:41 -0500
-Subject: [PATCH] Empirecraft-API POM Changes
+Subject: [PATCH] TerraPaper-API POM Changes
 
 ---
  pom.xml | 13 ++++++++++++-
@@ -26,15 +26,15 @@ index 3347be41..5d067b3e 100644
      <description>An enhanced plugin API for Minecraft servers.</description>
 +-->
 +    <parent>
-+        <groupId>com.empireminecraft</groupId>
-+        <artifactId>empirecraft-parent</artifactId>
-+        <version>dev-1.13.2-R0.1-SNAPSHOT</version>
++        <groupId>de.terraconia</groupId>
++        <artifactId>terrapaper-parent</artifactId>
++        <version>dev-1.15.2-R0.1-SNAPSHOT</version>
 +        <relativePath>../pom.xml</relativePath>
 +    </parent>
 +
-+    <artifactId>empirecraft-api</artifactId>
-+    <version>dev-1.13.2-R0.1-SNAPSHOT</version>
-+    <name>EmpireCraft-API</name>
++    <artifactId>terrapaper-api</artifactId>
++    <version>dev-1.15.2-R0.1-SNAPSHOT</version>
++    <name>TerraPaper-API</name>
  
      <properties>
          <!-- Paper - #Logic -->
