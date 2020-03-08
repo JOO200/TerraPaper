@@ -1,24 +1,38 @@
-From befd590a4161250f5d1091d7574e1b8426cd482f Mon Sep 17 00:00:00 2001
+From 4bb92292e01d41cfe1f03db756ff36c40f2d35ee Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sat, 7 Mar 2020 22:53:11 +0100
 Subject: [PATCH] Limited pushable blocks from pistons
 
-fixed mapping fuer bloecke
+Optimized paper config option
 ---
- src/main/java/net/minecraft/server/Block.java | 5 +++++
- 1 file changed, 5 insertions(+)
+ src/main/java/com/destroystokyo/paper/PaperConfig.java | 5 +++++
+ src/main/java/net/minecraft/server/Block.java          | 4 ++++
+ 2 files changed, 9 insertions(+)
 
+diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
+index 1d7d1ffbf..f14aecc39 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
++++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
+@@ -425,4 +425,9 @@ public class PaperConfig {
+             */
+         }
+     }
++
++    public static List<String> blockedPistonBlocks = java.util.Collections.emptyList();
++    private static void blockedPistonBlocks() {
++        blockedPistonBlocks = config.getStringList("blockedPistonMaterials");
++    }
+ }
 diff --git a/src/main/java/net/minecraft/server/Block.java b/src/main/java/net/minecraft/server/Block.java
-index e40375b67..2655643c6 100644
+index e40375b67..fa7312b9d 100644
 --- a/src/main/java/net/minecraft/server/Block.java
 +++ b/src/main/java/net/minecraft/server/Block.java
-@@ -596,6 +596,11 @@ public class Block implements IMaterial {
+@@ -596,6 +596,10 @@ public class Block implements IMaterial {
  
      @Deprecated
      public EnumPistonReaction getPushReaction(IBlockData iblockdata) {
 +        // TerraPaper -- start block materials
-+        List<String> blocked = com.destroystokyo.paper.PaperConfig.config.getStringList("blockedPistonMaterials");
-+        if(blocked.contains(k())) return EnumPistonReaction.BLOCK;
++        if(com.destroystokyo.paper.PaperConfig.blockedPistonBlocks.contains(k())) return EnumPistonReaction.BLOCK;
 +        // TerraPaper -- end
 +
          return this.material.getPushReaction();
