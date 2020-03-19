@@ -1,0 +1,70 @@
+From 39aea79b7386a28b4e14b47da00fa5fba2b1093d Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Thu, 19 Mar 2020 16:29:00 +0100
+Subject: [PATCH] Disable mob damage by conduits
+
+---
+ .../minecraft/server/TileEntityConduit.java   | 40 -------------------
+ 1 file changed, 40 deletions(-)
+
+diff --git a/src/main/java/net/minecraft/server/TileEntityConduit.java b/src/main/java/net/minecraft/server/TileEntityConduit.java
+index 07f265b29..4d8576592 100644
+--- a/src/main/java/net/minecraft/server/TileEntityConduit.java
++++ b/src/main/java/net/minecraft/server/TileEntityConduit.java
+@@ -75,7 +75,6 @@ public class TileEntityConduit extends TileEntity implements ITickable {
+             this.a(this.h());
+             if (!this.world.isClientSide && this.d()) {
+                 this.j();
+-                this.k();
+             }
+         }
+ 
+@@ -169,45 +168,6 @@ public class TileEntityConduit extends TileEntity implements ITickable {
+         }
+     }
+ 
+-    private void k() {
+-        EntityLiving entityliving = this.target;
+-        int i = this.i.size();
+-
+-        if (i < 42) {
+-            this.target = null;
+-        } else if (this.target == null && this.k != null) {
+-            this.target = this.x();
+-            this.k = null;
+-        } else if (this.target == null) {
+-            List<EntityLiving> list = this.world.a(EntityLiving.class, this.m(), (java.util.function.Predicate<EntityLiving>) (entityliving1) -> { // CraftBukkit - decompile error
+-                return entityliving1 instanceof IMonster && entityliving1.isInWaterOrRain();
+-            });
+-
+-            if (!list.isEmpty()) {
+-                this.target = (EntityLiving) list.get(this.world.random.nextInt(list.size()));
+-            }
+-        } else if (!this.target.isAlive() || !this.position.a((BaseBlockPosition) (new BlockPosition(this.target)), 8.0D)) {
+-            this.target = null;
+-        }
+-
+-        if (this.target != null) {
+-            // CraftBukkit start
+-            CraftEventFactory.blockDamage = CraftBlock.at(this.world, this.position);
+-            if (this.target.damageEntity(DamageSource.MAGIC, 4.0F)) {
+-                this.world.playSound((EntityHuman) null, this.target.locX(), this.target.locY(), this.target.locZ(), SoundEffects.BLOCK_CONDUIT_ATTACK_TARGET, SoundCategory.BLOCKS, 1.0F, 1.0F);
+-            }
+-            CraftEventFactory.blockDamage = null;
+-            // CraftBukkit end
+-        }
+-
+-        if (entityliving != this.target) {
+-            IBlockData iblockdata = this.getBlock();
+-
+-            this.world.notify(this.position, iblockdata, iblockdata, 2);
+-        }
+-
+-    }
+-
+     private void l() {
+         if (this.k == null) {
+             this.target = null;
+-- 
+2.24.1.windows.2
+
