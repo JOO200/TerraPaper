@@ -1,25 +1,57 @@
-From a7fc9db43b10085672c403411232be1a25e5af2c Mon Sep 17 00:00:00 2001
+From 9b46aa2d5f30ce2a3947e446459fa518f4efee7b Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sun, 8 Mar 2020 15:41:03 +0100
 Subject: [PATCH] Deny cactus drops
 
+Allow cactus drops for farmed blocks
+
+Fixed cactus drops
+
+Removed Bukkit import
 ---
- src/main/java/net/minecraft/server/BlockCactus.java | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../java/net/minecraft/server/BlockCactus.java  | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/BlockCactus.java b/src/main/java/net/minecraft/server/BlockCactus.java
-index 3524fcb92..fba98e650 100644
+index 3524fcb92..09cb15142 100644
 --- a/src/main/java/net/minecraft/server/BlockCactus.java
 +++ b/src/main/java/net/minecraft/server/BlockCactus.java
-@@ -19,7 +19,7 @@ public class BlockCactus extends Block {
+@@ -10,6 +10,7 @@ public class BlockCactus extends Block {
+     public static final BlockStateInteger AGE = BlockProperties.ad;
+     protected static final VoxelShape b = Block.a(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
+     protected static final VoxelShape c = Block.a(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
++    java.util.Set<BlockPosition> allowDrops = new java.util.HashSet<>();
+ 
+     protected BlockCactus(Block.Info block_info) {
+         super(block_info);
+@@ -19,7 +20,7 @@ public class BlockCactus extends Block {
      @Override
      public void tick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, Random random) {
          if (!iblockdata.canPlace(worldserver, blockposition)) {
 -            worldserver.b(blockposition, true);
-+            worldserver.b(blockposition, false);     // TerraPaper: Don't drop items
++            worldserver.b(blockposition, allowDrops.remove(blockposition));     // TerraPaper: Don't drop items
          } else {
              if (worldserver.paperConfig.fixZeroTickInstantGrowFarms && !randomTick) return; // Paper - fix MC-113809
              BlockPosition blockposition1 = blockposition.up();
+@@ -107,4 +108,18 @@ public class BlockCactus extends Block {
+     public boolean a(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition, PathMode pathmode) {
+         return false;
+     }
++
++    // TerraPaper - start
++    @Override
++    public void postBreak(GeneratorAccess generatoraccess, BlockPosition blockposition, IBlockData iblockdata) {
++        BlockPosition pos = blockposition.up();
++        Block block = generatoraccess.getType(pos).getBlock();
++        while (block instanceof BlockCactus) {
++            allowDrops.add(pos);
++            pos = pos.up();
++            block = generatoraccess.getType(pos).getBlock();
++        }
++        super.postBreak(generatoraccess, blockposition, iblockdata);
++    }
++    // TerraPaper - end
+ }
 -- 
 2.24.1.windows.2
 
