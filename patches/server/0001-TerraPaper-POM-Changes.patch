@@ -1,15 +1,16 @@
-From f821912974f90b7da159cd86f184af0b8cacc234 Mon Sep 17 00:00:00 2001
+From 6e693b62dac3cf50a9c8cefb32ae761a2b51fc6d Mon Sep 17 00:00:00 2001
 From: Joo200 <joo200@terraconia.de>
 Date: Wed, 31 Oct 2012 23:26:58 -0400
 Subject: [PATCH] TerraPaper POM Changes
 
+fixed wrong version from terrapaper-api
 ---
- pom.xml                                       | 21 ++++++++++++-------
+ pom.xml                                       | 23 ++++++++++++-------
  .../bukkit/craftbukkit/util/Versioning.java   |  2 +-
- 2 files changed, 15 insertions(+), 8 deletions(-)
+ 2 files changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 55679af92..d89d5650e 100644
+index 55679af92..84210e835 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,12 +1,19 @@
@@ -33,7 +34,7 @@ index 55679af92..d89d5650e 100644
      <properties>
          <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-@@ -21,16 +28,16 @@
+@@ -21,17 +28,17 @@
      </properties>
  
      <parent>
@@ -50,11 +51,13 @@ index 55679af92..d89d5650e 100644
          <dependency>
 -            <groupId>com.destroystokyo.paper</groupId>
 -            <artifactId>paper-api</artifactId>
+-            <version>${project.version}</version>
 +            <groupId>de.terraconia</groupId>
 +            <artifactId>terrapaper-api</artifactId>
-             <version>${project.version}</version>
++            <version>dev-1.15.2-R0.1-SNAPSHOT</version>
              <scope>compile</scope>
          </dependency>
+         <dependency>
 @@ -143,7 +150,7 @@
  
      <!-- This builds a completely 'ready to start' jar with all dependencies inside -->
