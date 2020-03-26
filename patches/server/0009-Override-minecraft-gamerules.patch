@@ -1,0 +1,62 @@
+From bf9ee9324b46e9630911e3c8fd9f9c9cf4c0ae89 Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Thu, 26 Mar 2020 16:23:19 +0100
+Subject: [PATCH] Override minecraft gamerules
+
+---
+ src/main/java/net/minecraft/server/EntityRaider.java      | 2 +-
+ src/main/java/net/minecraft/server/MobSpawnerPhantom.java | 2 +-
+ src/main/java/net/minecraft/server/PersistentRaid.java    | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/main/java/net/minecraft/server/EntityRaider.java b/src/main/java/net/minecraft/server/EntityRaider.java
+index c0b7b5f07..19156d2a7 100644
+--- a/src/main/java/net/minecraft/server/EntityRaider.java
++++ b/src/main/java/net/minecraft/server/EntityRaider.java
+@@ -130,7 +130,7 @@ public abstract class EntityRaider extends EntityMonsterPatrolling {
+                     i = MathHelper.clamp(i, 0, 5);
+                     MobEffect mobeffect1 = new MobEffect(MobEffects.BAD_OMEN, 120000, i, false, false, true);
+ 
+-                    if (!this.world.getGameRules().getBoolean(GameRules.DISABLE_RAIDS)) {
++                    if (false && !this.world.getGameRules().getBoolean(GameRules.DISABLE_RAIDS)) {
+                         entityhuman.addEffect(mobeffect1, org.bukkit.event.entity.EntityPotionEffectEvent.Cause.PATROL_CAPTAIN); // CraftBukkit
+                     }
+                 }
+diff --git a/src/main/java/net/minecraft/server/MobSpawnerPhantom.java b/src/main/java/net/minecraft/server/MobSpawnerPhantom.java
+index f488c22ed..509c10812 100644
+--- a/src/main/java/net/minecraft/server/MobSpawnerPhantom.java
++++ b/src/main/java/net/minecraft/server/MobSpawnerPhantom.java
+@@ -12,7 +12,7 @@ public class MobSpawnerPhantom {
+     public int a(WorldServer worldserver, boolean flag, boolean flag1) {
+         if (!flag) {
+             return 0;
+-        } else if (!worldserver.getGameRules().getBoolean(GameRules.DO_INSOMNIA)) {
++        } else if (true || !worldserver.getGameRules().getBoolean(GameRules.DO_INSOMNIA)) { // TerraPaper override
+             return 0;
+         } else {
+             Random random = worldserver.random;
+diff --git a/src/main/java/net/minecraft/server/PersistentRaid.java b/src/main/java/net/minecraft/server/PersistentRaid.java
+index 8946cf958..179c538a2 100644
+--- a/src/main/java/net/minecraft/server/PersistentRaid.java
++++ b/src/main/java/net/minecraft/server/PersistentRaid.java
+@@ -32,7 +32,7 @@ public class PersistentRaid extends PersistentBase {
+         while (iterator.hasNext()) {
+             Raid raid = (Raid) iterator.next();
+ 
+-            if (this.b.getGameRules().getBoolean(GameRules.DISABLE_RAIDS)) {
++            if (true || this.b.getGameRules().getBoolean(GameRules.DISABLE_RAIDS)) {
+                 raid.stop();
+             }
+ 
+@@ -59,7 +59,7 @@ public class PersistentRaid extends PersistentBase {
+     public Raid a(EntityPlayer entityplayer) {
+         if (entityplayer.isSpectator()) {
+             return null;
+-        } else if (this.b.getGameRules().getBoolean(GameRules.DISABLE_RAIDS)) {
++        } else if (true || this.b.getGameRules().getBoolean(GameRules.DISABLE_RAIDS)) {
+             return null;
+         } else {
+             DimensionManager dimensionmanager = entityplayer.world.getWorldProvider().getDimensionManager();
+-- 
+2.24.1.windows.2
+
