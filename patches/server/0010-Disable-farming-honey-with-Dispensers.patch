@@ -1,0 +1,29 @@
+From 41bfd1d56f4287149b9b08b4fe53218aa2fdb5be Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Fri, 27 Mar 2020 14:08:21 +0100
+Subject: [PATCH] Disable farming honey with Dispensers
+
+---
+ src/main/java/net/minecraft/server/IDispenseBehavior.java | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/src/main/java/net/minecraft/server/IDispenseBehavior.java b/src/main/java/net/minecraft/server/IDispenseBehavior.java
+index 20c9dbac3..87cbc654f 100644
+--- a/src/main/java/net/minecraft/server/IDispenseBehavior.java
++++ b/src/main/java/net/minecraft/server/IDispenseBehavior.java
+@@ -789,11 +789,7 @@ public interface IDispenseBehavior {
+                 }
+                 // CraftBukkit end
+ 
+-                if (block.a(TagsBlock.BEEHIVES) && (Integer) iblockdata.get(BlockBeehive.c) >= 5) {
+-                    ((BlockBeehive) iblockdata.getBlock()).a(world.getMinecraftWorld(), iblockdata, blockposition, (EntityHuman) null, TileEntityBeehive.ReleaseStatus.BEE_RELEASED);
+-                    this.dispensed = true;
+-                    return this.a(isourceblock, itemstack, new ItemStack(Items.pX));
+-                } else if (world.getFluid(blockposition).a(TagsFluid.WATER)) {
++                if (world.getFluid(blockposition).a(TagsFluid.WATER)) {
+                     this.dispensed = true;
+                     return this.a(isourceblock, itemstack, PotionUtil.a(new ItemStack(Items.POTION), Potions.WATER));
+                 } else {
+-- 
+2.24.1.windows.2
+
