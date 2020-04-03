@@ -1,14 +1,17 @@
-From dfc814039ee9e943cc72e846a73df539130d98ba Mon Sep 17 00:00:00 2001
+From 38853b0f82cd0ee4793841b4f25227dbf23f3bd8 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Thu, 26 Mar 2020 14:43:49 +0100
 Subject: [PATCH] Modify Loottables for Terraconia
 
+Disable shulker drops
 ---
  .../loot_tables/chests/buried_treasure.json   | 163 ++++++++++++++++++
  .../loot_tables/entities/iron_golem.json      |  24 +++
- 2 files changed, 187 insertions(+)
+ .../loot_tables/entities/shulker.json         |   3 +
+ 3 files changed, 190 insertions(+)
  create mode 100644 src/main/resources/data/minecraft/loot_tables/chests/buried_treasure.json
  create mode 100644 src/main/resources/data/minecraft/loot_tables/entities/iron_golem.json
+ create mode 100644 src/main/resources/data/minecraft/loot_tables/entities/shulker.json
 
 diff --git a/src/main/resources/data/minecraft/loot_tables/chests/buried_treasure.json b/src/main/resources/data/minecraft/loot_tables/chests/buried_treasure.json
 new file mode 100644
@@ -209,6 +212,16 @@ index 000000000..b93821cbf
 +      ]
 +    }
 +  ]
++}
+\ No newline at end of file
+diff --git a/src/main/resources/data/minecraft/loot_tables/entities/shulker.json b/src/main/resources/data/minecraft/loot_tables/entities/shulker.json
+new file mode 100644
+index 000000000..601c1935a
+--- /dev/null
++++ b/src/main/resources/data/minecraft/loot_tables/entities/shulker.json
+@@ -0,0 +1,3 @@
++{
++  "type": "minecraft:entity"
 +}
 \ No newline at end of file
 -- 
