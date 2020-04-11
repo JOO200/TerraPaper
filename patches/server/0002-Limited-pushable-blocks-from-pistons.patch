@@ -1,4 +1,4 @@
-From 3adad5e566189095e64000e74bac023417da96f3 Mon Sep 17 00:00:00 2001
+From 57156d2be855bfffab5608d3404bf1027c233163 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sat, 7 Mar 2020 22:53:11 +0100
 Subject: [PATCH] Limited pushable blocks from pistons
@@ -10,10 +10,10 @@ Optimized paper config option
  2 files changed, 9 insertions(+)
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 6916ed30c..9225c79b7 100644
+index 1c4cd3635..4707b2447 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-@@ -428,4 +428,9 @@ public class PaperConfig {
+@@ -429,4 +429,9 @@ public class PaperConfig {
              */
          }
      }
