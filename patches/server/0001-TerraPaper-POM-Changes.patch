@@ -1,16 +1,16 @@
-From 6e693b62dac3cf50a9c8cefb32ae761a2b51fc6d Mon Sep 17 00:00:00 2001
+From 052487b114105382a9be81379b7e532e60ce7c22 Mon Sep 17 00:00:00 2001
 From: Joo200 <joo200@terraconia.de>
 Date: Wed, 31 Oct 2012 23:26:58 -0400
 Subject: [PATCH] TerraPaper POM Changes
 
 fixed wrong version from terrapaper-api
 ---
- pom.xml                                       | 23 ++++++++++++-------
+ pom.xml                                       | 25 ++++++++++++-------
  .../bukkit/craftbukkit/util/Versioning.java   |  2 +-
- 2 files changed, 16 insertions(+), 9 deletions(-)
+ 2 files changed, 17 insertions(+), 10 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 55679af92..84210e835 100644
+index 55679af92..c95eadd37 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,12 +1,19 @@
@@ -34,7 +34,14 @@ index 55679af92..84210e835 100644
      <properties>
          <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-@@ -21,17 +28,17 @@
+@@ -15,23 +22,23 @@
+         <minecraft_version>1_15_R1</minecraft_version>
+         <buildtag.prefix>git-Bukkit-</buildtag.prefix>
+         <buildtag.suffix></buildtag.suffix>
+-        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
++        <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+         <maven.compiler.source>1.8</maven.compiler.source>
+         <maven.compiler.target>1.8</maven.compiler.target>
      </properties>
  
      <parent>
@@ -63,7 +70,7 @@ index 55679af92..84210e835 100644
      <!-- This builds a completely 'ready to start' jar with all dependencies inside -->
      <build>
 -        <finalName>paper-${minecraft.version}</finalName>
-+        <finalName>terrapaper-${minecraft.version}</finalName>
++        <finalName>TerraPaper-${minecraft.version}-${maven.build.timestamp}</finalName>
          <defaultGoal>clean install</defaultGoal> <!-- Paper -->
          <plugins>
              <plugin>
