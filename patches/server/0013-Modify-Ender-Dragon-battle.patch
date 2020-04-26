@@ -1,0 +1,86 @@
+From 619515145a618039ace9f481ce81980a5f5106fa Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Sun, 19 Apr 2020 17:48:12 +0200
+Subject: [PATCH] Modify Ender Dragon battle
+
+---
+ .../minecraft/server/EnderDragonBattle.java   | 28 +++----------------
+ .../craftbukkit/boss/CraftDragonBattle.java   |  2 +-
+ 2 files changed, 5 insertions(+), 25 deletions(-)
+
+diff --git a/src/main/java/net/minecraft/server/EnderDragonBattle.java b/src/main/java/net/minecraft/server/EnderDragonBattle.java
+index 687efa022..3d6d1f8ac 100644
+--- a/src/main/java/net/minecraft/server/EnderDragonBattle.java
++++ b/src/main/java/net/minecraft/server/EnderDragonBattle.java
+@@ -369,7 +369,7 @@ public class EnderDragonBattle {
+     }
+ 
+     private void n() {
+-        if (!this.e.isEmpty()) {
++        if (!this.e.isEmpty() && false) { // TerraPaper no gateways
+             int i = (Integer) this.e.remove(this.e.size() - 1);
+             int j = MathHelper.floor(96.0D * Math.cos(2.0D * (-3.141592653589793D + 0.15707963267948966D * (double) i)));
+             int k = MathHelper.floor(96.0D * Math.sin(2.0D * (-3.141592653589793D + 0.15707963267948966D * (double) i)));
+@@ -384,15 +384,7 @@ public class EnderDragonBattle {
+     }
+ 
+     private void a(boolean flag) {
+-        WorldGenEndTrophy worldgenendtrophy = new WorldGenEndTrophy(flag);
+-
+-        if (this.o == null) {
+-            for (this.o = this.d.getHighestBlockYAt(HeightMap.Type.MOTION_BLOCKING_NO_LEAVES, WorldGenEndTrophy.a).down(); this.d.getType(this.o).getBlock() == Blocks.BEDROCK && this.o.getY() > this.d.getSeaLevel(); this.o = this.o.down()) {
+-                ;
+-            }
+-        }
+-
+-        worldgenendtrophy.b(WorldGenFeatureConfiguration.e).a(this.d, this.d.getChunkProvider().getChunkGenerator(), new Random(), this.o); // CraftBukkit - decompile error
++        // TerraPaper - no generation from structures
+     }
+ 
+     private EntityEnderDragon o() {
+@@ -426,7 +418,7 @@ public class EnderDragonBattle {
+             EnderDragonBattle.LOGGER.debug("Aborting respawn sequence");
+             this.p = null;
+             this.q = 0;
+-            this.f();
++            // this.f(); // TerraPaper no pillars
+             this.a(true);
+         } else {
+             this.m();
+@@ -484,19 +476,7 @@ public class EnderDragonBattle {
+ 
+     private void a(List<EntityEnderCrystal> list) {
+         if (this.k && this.p == null) {
+-            for (ShapeDetector.ShapeDetectorCollection shapedetector_shapedetectorcollection = this.j(); shapedetector_shapedetectorcollection != null; shapedetector_shapedetectorcollection = this.j()) {
+-                for (int i = 0; i < this.f.c(); ++i) {
+-                    for (int j = 0; j < this.f.b(); ++j) {
+-                        for (int k = 0; k < this.f.a(); ++k) {
+-                            ShapeDetectorBlock shapedetectorblock = shapedetector_shapedetectorcollection.a(i, j, k);
+-
+-                            if (shapedetectorblock.a().getBlock() == Blocks.BEDROCK || shapedetectorblock.a().getBlock() == Blocks.END_PORTAL) {
+-                                this.d.setTypeUpdate(shapedetectorblock.getPosition(), Blocks.END_STONE.getBlockData());
+-                            }
+-                        }
+-                    }
+-                }
+-            }
++            // TerraPaper - modify EnderDragon
+ 
+             this.p = EnumDragonRespawn.START;
+             this.q = 0;
+diff --git a/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java b/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java
+index 2ec656dcc..9f1c23ee7 100644
+--- a/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java
++++ b/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java
+@@ -62,7 +62,7 @@ public class CraftDragonBattle implements DragonBattle {
+ 
+     @Override
+     public void resetCrystals() {
+-        this.handle.f(); // PAIL rename resetCrystals
++        // this.handle.f(); // PAIL rename resetCrystals
+     }
+ 
+     @Override
+-- 
+2.24.1.windows.2
+
