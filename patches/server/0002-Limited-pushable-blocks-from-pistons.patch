@@ -1,4 +1,4 @@
-From 57156d2be855bfffab5608d3404bf1027c233163 Mon Sep 17 00:00:00 2001
+From f77bfd43ca15cc3fb63a218832dfb4d9600ff11a Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sat, 7 Mar 2020 22:53:11 +0100
 Subject: [PATCH] Limited pushable blocks from pistons
@@ -10,12 +10,12 @@ Optimized paper config option
  2 files changed, 9 insertions(+)
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 1c4cd3635..4707b2447 100644
+index e0d7832c3..5f32be407 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-@@ -429,4 +429,9 @@ public class PaperConfig {
-             */
-         }
+@@ -427,4 +427,9 @@ public class PaperConfig {
+     private static void midTickChunkTasks() {
+         midTickChunkTasks = getInt("settings.chunk-tasks-per-tick", midTickChunkTasks);
      }
 +
 +    public static List<String> blockedPistonBlocks = java.util.Collections.emptyList();
