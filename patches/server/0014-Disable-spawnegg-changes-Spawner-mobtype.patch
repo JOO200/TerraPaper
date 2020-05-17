@@ -1,0 +1,33 @@
+From a7777ddcaa78269b48bbff76193583b82d73619a Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Sun, 17 May 2020 21:04:40 +0200
+Subject: [PATCH] Disable spawnegg changes Spawner mobtype
+
+---
+ src/main/java/net/minecraft/server/ItemMonsterEgg.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/net/minecraft/server/ItemMonsterEgg.java b/src/main/java/net/minecraft/server/ItemMonsterEgg.java
+index 24af4c11d..3c73ee6ff 100644
+--- a/src/main/java/net/minecraft/server/ItemMonsterEgg.java
++++ b/src/main/java/net/minecraft/server/ItemMonsterEgg.java
+@@ -34,6 +34,7 @@ public class ItemMonsterEgg extends Item {
+             IBlockData iblockdata = world.getType(blockposition);
+             Block block = iblockdata.getBlock();
+ 
++            /* TerraPaper start - disable Spawnegg changes Spawner mobtype
+             if (block == Blocks.SPAWNER) {
+                 TileEntity tileentity = world.getTileEntity(blockposition);
+ 
+@@ -47,7 +48,7 @@ public class ItemMonsterEgg extends Item {
+                     itemstack.subtract(1);
+                     return EnumInteractionResult.SUCCESS;
+                 }
+-            }
++            } */ // TerraPaper end
+ 
+             BlockPosition blockposition1;
+ 
+-- 
+2.24.1.windows.2
+
