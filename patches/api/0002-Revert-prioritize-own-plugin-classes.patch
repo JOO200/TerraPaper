@@ -1,0 +1,59 @@
+From fe1fb8b71821482de6c0771d3793c39571ffca9d Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Mon, 18 May 2020 22:17:07 +0200
+Subject: [PATCH] Revert prioritize own plugin classes
+
+---
+ .../org/bukkit/plugin/java/JavaPluginLoader.java  | 15 ---------------
+ .../org/bukkit/plugin/java/PluginClassLoader.java |  2 +-
+ 2 files changed, 1 insertion(+), 16 deletions(-)
+
+diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+index 528ceeb22..ffc265d45 100644
+--- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
++++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+@@ -194,11 +194,6 @@ public final class JavaPluginLoader implements PluginLoader {
+ 
+     @Nullable
+     Class<?> getClassByName(final String name) {
+-        // Paper start - prioritize self
+-        return getClassByName(name, null);
+-    }
+-    Class<?> getClassByName(final String name, PluginClassLoader requester) {
+-        // Paper end
+         // Paper start - make MT safe
+         Class<?> cachedClass = classes.get(name);
+         if (cachedClass != null) {
+@@ -210,16 +205,6 @@ public final class JavaPluginLoader implements PluginLoader {
+             classLoadLockCount.compute(name, (x, prev) -> prev != null ? prev + 1 : 1);
+         }
+         lock.writeLock().lock();try {
+-            // Paper start - prioritize self
+-            if (!DISABLE_CLASS_PRIORITIZATION && requester != null) {
+-                try {
+-                cachedClass = requester.findClass(name, false);
+-                } catch (ClassNotFoundException cnfe) {}
+-                if (cachedClass != null) {
+-                    return cachedClass;
+-                }
+-            }
+-            // Paper end-
+         cachedClass = classes.get(name);
+         // Paper end
+ 
+diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
+index 28e5c6591..b5f8a5ac1 100644
+--- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
++++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
+@@ -108,7 +108,7 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
+ 
+         if (result == null) {
+             if (checkGlobal) {
+-                result = loader.getClassByName(name, this); // Paper - prioritize self
++                result = loader.getClassByName(name); // Paper - prioritize self
+ 
+                 if (result != null) {
+                     PluginDescriptionFile provider = ((PluginClassLoader) result.getClassLoader()).description;
+-- 
+2.24.1.windows.2
+

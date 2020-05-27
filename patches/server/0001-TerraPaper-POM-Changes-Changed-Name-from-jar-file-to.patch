@@ -1,4 +1,4 @@
-From 0856c969ec0668d980d89d81548153944ad8e4fe Mon Sep 17 00:00:00 2001
+From a8335eedfde1d11890acff8c569a7341bcb69e7f Mon Sep 17 00:00:00 2001
 From: Joo200 <joo200@terraconia.de>
 Date: Wed, 31 Oct 2012 23:26:58 -0400
 Subject: [PATCH] TerraPaper POM Changes Changed Name from jar-file to
@@ -10,7 +10,7 @@ Subject: [PATCH] TerraPaper POM Changes Changed Name from jar-file to
  2 files changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index 1ae57e8ab..edd2d5f58 100644
+index e4c63bb76..0f79e1dfe 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,12 +1,19 @@
@@ -58,7 +58,7 @@ index 1ae57e8ab..edd2d5f58 100644
              <scope>compile</scope>
          </dependency>
          <dependency>
-@@ -159,7 +166,7 @@
+@@ -164,7 +171,7 @@
  
      <!-- This builds a completely 'ready to start' jar with all dependencies inside -->
      <build>
