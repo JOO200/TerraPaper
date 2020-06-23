@@ -1,4 +1,4 @@
-From cdef39de0e3eb4ffcfd25f91730e3e9b1e45107d Mon Sep 17 00:00:00 2001
+From 6bcee54a6de58dc78971b1eb5adb1a232182ad9b Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Mon, 23 Mar 2020 20:07:32 +0100
 Subject: [PATCH] Remove Reputation and Hero of Village for trades
@@ -8,10 +8,10 @@ Subject: [PATCH] Remove Reputation and Hero of Village for trades
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/EntityVillager.java b/src/main/java/net/minecraft/server/EntityVillager.java
-index 6e0020ae0..7ee3054fe 100644
+index 7da267d287..1a85e0877e 100644
 --- a/src/main/java/net/minecraft/server/EntityVillager.java
 +++ b/src/main/java/net/minecraft/server/EntityVillager.java
-@@ -237,7 +237,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+@@ -251,7 +251,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
      }
  
      private void g(EntityHuman entityhuman) {
