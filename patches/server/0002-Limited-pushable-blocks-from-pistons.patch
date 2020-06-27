@@ -1,13 +1,13 @@
-From 22ed9edd07271b640816b2a762784a857c0d086c Mon Sep 17 00:00:00 2001
+From 45fe5c1195823b32de9d8832f0d9d4ff7a63fcb3 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sat, 7 Mar 2020 22:53:11 +0100
 Subject: [PATCH] Limited pushable blocks from pistons
 
 Optimized paper config option
 ---
- src/main/java/com/destroystokyo/paper/PaperConfig.java |  6 ++++++
- src/main/java/net/minecraft/server/Block.java          | 10 ++++++++++
- 2 files changed, 16 insertions(+)
+ src/main/java/com/destroystokyo/paper/PaperConfig.java | 6 ++++++
+ src/main/java/net/minecraft/server/BlockBase.java      | 3 +++
+ 2 files changed, 9 insertions(+)
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 index 3b0f3127bc..05cac2b2a8 100644
@@ -26,27 +26,27 @@ index 3b0f3127bc..05cac2b2a8 100644
      public static boolean allowPistonDuplication;
      private static void allowPistonDuplication() {
          allowPistonDuplication = getBoolean("settings.unsupported-settings.allow-piston-duplication", config.getBoolean("settings.unsupported-settings.allow-tnt-duplication", false));
-diff --git a/src/main/java/net/minecraft/server/Block.java b/src/main/java/net/minecraft/server/Block.java
-index 81725611d5..ec9e280909 100644
---- a/src/main/java/net/minecraft/server/Block.java
-+++ b/src/main/java/net/minecraft/server/Block.java
-@@ -290,6 +290,16 @@ public class Block extends BlockBase implements IMaterial {
-         return this.name;
+diff --git a/src/main/java/net/minecraft/server/BlockBase.java b/src/main/java/net/minecraft/server/BlockBase.java
+index ff770a3b0e..8c0a07cb70 100644
+--- a/src/main/java/net/minecraft/server/BlockBase.java
++++ b/src/main/java/net/minecraft/server/BlockBase.java
+@@ -256,6 +256,7 @@ public abstract class BlockBase {
+         return this instanceof ITileEntity;
      }
  
-+    @Deprecated
-+    public EnumPistonReaction getPushReaction(IBlockData iblockdata) {
-+        // TerraPaper -- start block materials
-+        // TODO: Fix this
-+        if(com.destroystokyo.paper.PaperConfig.blockedPistonBlocks.contains(k())) return EnumPistonReaction.BLOCK;
-+        // TerraPaper -- end
++    public final MinecraftKey getKey() { return r(); } // TerraPaper OBF-Helper
+     public final MinecraftKey r() {
+         if (this.aC == null) {
+             MinecraftKey minecraftkey = IRegistry.BLOCK.getKey(this.p());
+@@ -436,6 +437,8 @@ public abstract class BlockBase {
+         }
+ 
+         public EnumPistonReaction getPushReaction() {
++            if(com.destroystokyo.paper.PaperConfig.blockedPistonBlocks.contains(this.getBlock().getKey().toString())) return EnumPistonReaction.BLOCK;
 +
-+        return !blockData.isDestroyable() ? EnumPistonReaction.BLOCK : this.material.getPushReaction(); // Paper
-+    }
-+
-     public void fallOn(World world, BlockPosition blockposition, Entity entity, float f) {
-         entity.b(f, 1.0F);
-     }
+             return !isDestroyable() ? EnumPistonReaction.BLOCK : this.getBlock().getPushReaction(this.p()); // Paper
+         }
+ 
 -- 
 2.24.1.windows.2
 

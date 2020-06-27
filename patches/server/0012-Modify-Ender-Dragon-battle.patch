@@ -1,15 +1,15 @@
-From d5ffdd6e8260fd7c532863dd6a9b8311185f9002 Mon Sep 17 00:00:00 2001
+From 5800b035e6f3aef4dae894baa99138dcd4bf114c Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sun, 19 Apr 2020 17:48:12 +0200
 Subject: [PATCH] Modify Ender Dragon battle
 
 ---
- .../minecraft/server/EnderDragonBattle.java   | 32 ++++---------------
- .../craftbukkit/boss/CraftDragonBattle.java   |  2 +-
+ .../minecraft/server/EnderDragonBattle.java   | 30 ++++---------------
+ .../craftbukkit/boss/CraftDragonBattle.java   |  4 +--
  2 files changed, 7 insertions(+), 27 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/EnderDragonBattle.java b/src/main/java/net/minecraft/server/EnderDragonBattle.java
-index 69faefbdbf..68a70bf0ee 100644
+index 69faefbdbf..c522922cc3 100644
 --- a/src/main/java/net/minecraft/server/EnderDragonBattle.java
 +++ b/src/main/java/net/minecraft/server/EnderDragonBattle.java
 @@ -369,7 +369,7 @@ public class EnderDragonBattle {
@@ -49,11 +49,10 @@ index 69faefbdbf..68a70bf0ee 100644
              this.a(true);
          } else {
              this.m();
-@@ -483,20 +475,8 @@ public class EnderDragonBattle {
-     }
+@@ -484,19 +476,7 @@ public class EnderDragonBattle {
  
      private void a(List<EntityEnderCrystal> list) {
--        if (this.dragonKilled && this.respawnPhase == null) {
+         if (this.dragonKilled && this.respawnPhase == null) {
 -            for (ShapeDetector.ShapeDetectorCollection shapedetector_shapedetectorcollection = this.j(); shapedetector_shapedetectorcollection != null; shapedetector_shapedetectorcollection = this.j()) {
 -                for (int i = 0; i < this.f.c(); ++i) {
 -                    for (int j = 0; j < this.f.b(); ++j) {
@@ -67,15 +66,23 @@ index 69faefbdbf..68a70bf0ee 100644
 -                    }
 -                }
 -            }
-+        if (this.k && this.p == null) {
 +            // TerraPaper - modify EnderDragon
  
              this.respawnPhase = EnumDragonRespawn.START;
              this.q = 0;
 diff --git a/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java b/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java
-index dec7e8c600..e510806c5b 100644
+index dec7e8c600..1c2377c841 100644
 --- a/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java
 +++ b/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java
+@@ -43,7 +43,7 @@ public class CraftDragonBattle implements DragonBattle {
+             return false;
+         }
+ 
+-        this.handle.a(withPortals);
++       // this.handle.a(this); // TerraPaper - don't generate structures
+         return true;
+     }
+ 
 @@ -76,7 +76,7 @@ public class CraftDragonBattle implements DragonBattle {
  
      @Override
