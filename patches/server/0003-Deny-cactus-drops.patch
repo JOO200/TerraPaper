@@ -1,4 +1,4 @@
-From 9b46aa2d5f30ce2a3947e446459fa518f4efee7b Mon Sep 17 00:00:00 2001
+From 3d4bb10e58377a5a677d3f1a1860755288badc14 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sun, 8 Mar 2020 15:41:03 +0100
 Subject: [PATCH] Deny cactus drops
@@ -13,27 +13,27 @@ Removed Bukkit import
  1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/BlockCactus.java b/src/main/java/net/minecraft/server/BlockCactus.java
-index 3524fcb92..09cb15142 100644
+index 13e4517bd0..c5f7ebca88 100644
 --- a/src/main/java/net/minecraft/server/BlockCactus.java
 +++ b/src/main/java/net/minecraft/server/BlockCactus.java
 @@ -10,6 +10,7 @@ public class BlockCactus extends Block {
-     public static final BlockStateInteger AGE = BlockProperties.ad;
+     public static final BlockStateInteger AGE = BlockProperties.aj;
      protected static final VoxelShape b = Block.a(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
      protected static final VoxelShape c = Block.a(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 +    java.util.Set<BlockPosition> allowDrops = new java.util.HashSet<>();
  
-     protected BlockCactus(Block.Info block_info) {
-         super(block_info);
+     protected BlockCactus(BlockBase.Info blockbase_info) {
+         super(blockbase_info);
 @@ -19,7 +20,7 @@ public class BlockCactus extends Block {
      @Override
-     public void tick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, Random random) {
+     public void tickAlways(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, Random random) {
          if (!iblockdata.canPlace(worldserver, blockposition)) {
 -            worldserver.b(blockposition, true);
 +            worldserver.b(blockposition, allowDrops.remove(blockposition));     // TerraPaper: Don't drop items
-         } else {
-             if (worldserver.paperConfig.fixZeroTickInstantGrowFarms && !randomTick) return; // Paper - fix MC-113809
-             BlockPosition blockposition1 = blockposition.up();
-@@ -107,4 +108,18 @@ public class BlockCactus extends Block {
+         }
+ 
+     }
+@@ -110,4 +111,18 @@ public class BlockCactus extends Block {
      public boolean a(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition, PathMode pathmode) {
          return false;
      }

@@ -1,0 +1,34 @@
+From 0712a07c81bcbfc2f91cdca5bb2d34c1c7a65208 Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Thu, 16 Apr 2020 18:54:44 +0200
+Subject: [PATCH] Disable chicken rider from mob spawners
+
+---
+ src/main/java/net/minecraft/server/EntityZombie.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/main/java/net/minecraft/server/EntityZombie.java b/src/main/java/net/minecraft/server/EntityZombie.java
+index ad8b1f0e41..df7d711e76 100644
+--- a/src/main/java/net/minecraft/server/EntityZombie.java
++++ b/src/main/java/net/minecraft/server/EntityZombie.java
+@@ -463,7 +463,7 @@ public class EntityZombie extends EntityMonster {
+             if (entityzombie_groupdatazombie.a) {
+                 this.setBaby(true);
+                 if (entityzombie_groupdatazombie.b) {
+-                    if ((double) generatoraccess.getRandom().nextFloat() < 0.05D) {
++                    if ((double) generatoraccess.getRandom().nextFloat() < 0.05D && enummobspawn != EnumMobSpawn.SPAWNER) { // TerraPaper
+                         List<EntityChicken> list = generatoraccess.a(EntityChicken.class, this.getBoundingBox().grow(5.0D, 3.0D, 5.0D), IEntitySelector.c);
+ 
+                         if (!list.isEmpty()) {
+@@ -472,7 +472,7 @@ public class EntityZombie extends EntityMonster {
+                             entitychicken.setChickenJockey(true);
+                             this.startRiding(entitychicken);
+                         }
+-                    } else if ((double) generatoraccess.getRandom().nextFloat() < 0.05D) {
++                    } else if ((double) generatoraccess.getRandom().nextFloat() < 0.05D && enummobspawn != EnumMobSpawn.SPAWNER) { // TerraPaper
+                         EntityChicken entitychicken1 = (EntityChicken) EntityTypes.CHICKEN.a(this.world);
+ 
+                         entitychicken1.setPositionRotation(this.locX(), this.locY(), this.locZ(), this.yaw, 0.0F);
+-- 
+2.24.1.windows.2
+

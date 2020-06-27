@@ -1,83 +1,87 @@
-From 619515145a618039ace9f481ce81980a5f5106fa Mon Sep 17 00:00:00 2001
+From d5ffdd6e8260fd7c532863dd6a9b8311185f9002 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sun, 19 Apr 2020 17:48:12 +0200
 Subject: [PATCH] Modify Ender Dragon battle
 
 ---
- .../minecraft/server/EnderDragonBattle.java   | 28 +++----------------
+ .../minecraft/server/EnderDragonBattle.java   | 32 ++++---------------
  .../craftbukkit/boss/CraftDragonBattle.java   |  2 +-
- 2 files changed, 5 insertions(+), 25 deletions(-)
+ 2 files changed, 7 insertions(+), 27 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/EnderDragonBattle.java b/src/main/java/net/minecraft/server/EnderDragonBattle.java
-index 687efa022..3d6d1f8ac 100644
+index 69faefbdbf..68a70bf0ee 100644
 --- a/src/main/java/net/minecraft/server/EnderDragonBattle.java
 +++ b/src/main/java/net/minecraft/server/EnderDragonBattle.java
 @@ -369,7 +369,7 @@ public class EnderDragonBattle {
      }
  
      private void n() {
--        if (!this.e.isEmpty()) {
-+        if (!this.e.isEmpty() && false) { // TerraPaper no gateways
-             int i = (Integer) this.e.remove(this.e.size() - 1);
+-        if (!this.gateways.isEmpty()) {
++        if (!this.gateways.isEmpty() && false) { // TerraPaper no gateways
+             int i = (Integer) this.gateways.remove(this.gateways.size() - 1);
              int j = MathHelper.floor(96.0D * Math.cos(2.0D * (-3.141592653589793D + 0.15707963267948966D * (double) i)));
              int k = MathHelper.floor(96.0D * Math.sin(2.0D * (-3.141592653589793D + 0.15707963267948966D * (double) i)));
-@@ -384,15 +384,7 @@ public class EnderDragonBattle {
+@@ -383,16 +383,8 @@ public class EnderDragonBattle {
+         WorldGenerator.END_GATEWAY.b(WorldGenEndGatewayConfiguration.a()).a(this.world, this.world.getStructureManager(), this.world.getChunkProvider().getChunkGenerator(), new Random(), blockposition); // CraftBukkit - decompile error
      }
  
-     private void a(boolean flag) {
+-    public void a(boolean flag) { // PAIL private -> public, rename generateExitPortal()
 -        WorldGenEndTrophy worldgenendtrophy = new WorldGenEndTrophy(flag);
 -
--        if (this.o == null) {
--            for (this.o = this.d.getHighestBlockYAt(HeightMap.Type.MOTION_BLOCKING_NO_LEAVES, WorldGenEndTrophy.a).down(); this.d.getType(this.o).getBlock() == Blocks.BEDROCK && this.o.getY() > this.d.getSeaLevel(); this.o = this.o.down()) {
+-        if (this.exitPortalLocation == null) {
+-            for (this.exitPortalLocation = this.world.getHighestBlockYAt(HeightMap.Type.MOTION_BLOCKING_NO_LEAVES, WorldGenEndTrophy.a).down(); this.world.getType(this.exitPortalLocation).a(Blocks.BEDROCK) && this.exitPortalLocation.getY() > this.world.getSeaLevel(); this.exitPortalLocation = this.exitPortalLocation.down()) {
 -                ;
 -            }
 -        }
 -
--        worldgenendtrophy.b(WorldGenFeatureConfiguration.e).a(this.d, this.d.getChunkProvider().getChunkGenerator(), new Random(), this.o); // CraftBukkit - decompile error
+-        worldgenendtrophy.b(WorldGenFeatureConfiguration.k).a(this.world, this.world.getStructureManager(), this.world.getChunkProvider().getChunkGenerator(), new Random(), this.exitPortalLocation); // CraftBukkit - decompile error
++    private void a(boolean flag) {
 +        // TerraPaper - no generation from structures
      }
  
      private EntityEnderDragon o() {
 @@ -426,7 +418,7 @@ public class EnderDragonBattle {
              EnderDragonBattle.LOGGER.debug("Aborting respawn sequence");
-             this.p = null;
+             this.respawnPhase = null;
              this.q = 0;
--            this.f();
-+            // this.f(); // TerraPaper no pillars
+-            this.resetCrystals();
++            // this.resetCrystals(); // TerraPaper no pillars
              this.a(true);
          } else {
              this.m();
-@@ -484,19 +476,7 @@ public class EnderDragonBattle {
+@@ -483,20 +475,8 @@ public class EnderDragonBattle {
+     }
  
      private void a(List<EntityEnderCrystal> list) {
-         if (this.k && this.p == null) {
+-        if (this.dragonKilled && this.respawnPhase == null) {
 -            for (ShapeDetector.ShapeDetectorCollection shapedetector_shapedetectorcollection = this.j(); shapedetector_shapedetectorcollection != null; shapedetector_shapedetectorcollection = this.j()) {
 -                for (int i = 0; i < this.f.c(); ++i) {
 -                    for (int j = 0; j < this.f.b(); ++j) {
 -                        for (int k = 0; k < this.f.a(); ++k) {
 -                            ShapeDetectorBlock shapedetectorblock = shapedetector_shapedetectorcollection.a(i, j, k);
 -
--                            if (shapedetectorblock.a().getBlock() == Blocks.BEDROCK || shapedetectorblock.a().getBlock() == Blocks.END_PORTAL) {
--                                this.d.setTypeUpdate(shapedetectorblock.getPosition(), Blocks.END_STONE.getBlockData());
+-                            if (shapedetectorblock.a().a(Blocks.BEDROCK) || shapedetectorblock.a().a(Blocks.END_PORTAL)) {
+-                                this.world.setTypeUpdate(shapedetectorblock.getPosition(), Blocks.END_STONE.getBlockData());
 -                            }
 -                        }
 -                    }
 -                }
 -            }
++        if (this.k && this.p == null) {
 +            // TerraPaper - modify EnderDragon
  
-             this.p = EnumDragonRespawn.START;
+             this.respawnPhase = EnumDragonRespawn.START;
              this.q = 0;
 diff --git a/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java b/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java
-index 2ec656dcc..9f1c23ee7 100644
+index dec7e8c600..e510806c5b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java
 +++ b/src/main/java/org/bukkit/craftbukkit/boss/CraftDragonBattle.java
-@@ -62,7 +62,7 @@ public class CraftDragonBattle implements DragonBattle {
+@@ -76,7 +76,7 @@ public class CraftDragonBattle implements DragonBattle {
  
      @Override
      public void resetCrystals() {
--        this.handle.f(); // PAIL rename resetCrystals
-+        // this.handle.f(); // PAIL rename resetCrystals
+-        this.handle.resetCrystals();
++        // this.handle.resetCrystals(); // TerraPaper - no new crystals
      }
  
      @Override

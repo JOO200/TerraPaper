@@ -1,19 +1,19 @@
-From 518f763d35540db361363d72cc6b77c6dca8a7ce Mon Sep 17 00:00:00 2001
+From 22ed9edd07271b640816b2a762784a857c0d086c Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sat, 7 Mar 2020 22:53:11 +0100
 Subject: [PATCH] Limited pushable blocks from pistons
 
 Optimized paper config option
 ---
- src/main/java/com/destroystokyo/paper/PaperConfig.java | 6 ++++++
- src/main/java/net/minecraft/server/Block.java          | 4 ++++
- 2 files changed, 10 insertions(+)
+ src/main/java/com/destroystokyo/paper/PaperConfig.java |  6 ++++++
+ src/main/java/net/minecraft/server/Block.java          | 10 ++++++++++
+ 2 files changed, 16 insertions(+)
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 8444819f07..96362217a6 100644
+index 3b0f3127bc..05cac2b2a8 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-@@ -442,6 +442,12 @@ public class PaperConfig {
+@@ -422,6 +422,12 @@ public class PaperConfig {
          consoleHasAllPermissions = getBoolean("settings.console-has-all-permissions", consoleHasAllPermissions);
      }
  
@@ -27,20 +27,26 @@ index 8444819f07..96362217a6 100644
      private static void allowPistonDuplication() {
          allowPistonDuplication = getBoolean("settings.unsupported-settings.allow-piston-duplication", config.getBoolean("settings.unsupported-settings.allow-tnt-duplication", false));
 diff --git a/src/main/java/net/minecraft/server/Block.java b/src/main/java/net/minecraft/server/Block.java
-index 66244a9d0e..888f453399 100644
+index 81725611d5..ec9e280909 100644
 --- a/src/main/java/net/minecraft/server/Block.java
 +++ b/src/main/java/net/minecraft/server/Block.java
-@@ -604,6 +604,10 @@ public class Block implements IMaterial {
+@@ -290,6 +290,16 @@ public class Block extends BlockBase implements IMaterial {
+         return this.name;
+     }
  
-     @Deprecated
-     public EnumPistonReaction getPushReaction(IBlockData iblockdata) {
++    @Deprecated
++    public EnumPistonReaction getPushReaction(IBlockData iblockdata) {
 +        // TerraPaper -- start block materials
++        // TODO: Fix this
 +        if(com.destroystokyo.paper.PaperConfig.blockedPistonBlocks.contains(k())) return EnumPistonReaction.BLOCK;
 +        // TerraPaper -- end
 +
-         return !blockData.isDestroyable() ? EnumPistonReaction.BLOCK : this.material.getPushReaction(); // Paper
++        return !blockData.isDestroyable() ? EnumPistonReaction.BLOCK : this.material.getPushReaction(); // Paper
++    }
++
+     public void fallOn(World world, BlockPosition blockposition, Entity entity, float f) {
+         entity.b(f, 1.0F);
      }
- 
 -- 
 2.24.1.windows.2
 

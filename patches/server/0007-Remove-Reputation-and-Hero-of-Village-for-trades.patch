@@ -1,4 +1,4 @@
-From 6bcee54a6de58dc78971b1eb5adb1a232182ad9b Mon Sep 17 00:00:00 2001
+From 316b3072c25b605373d549a4bfe0a69b3dfff203 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Mon, 23 Mar 2020 20:07:32 +0100
 Subject: [PATCH] Remove Reputation and Hero of Village for trades
@@ -8,15 +8,15 @@ Subject: [PATCH] Remove Reputation and Hero of Village for trades
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/EntityVillager.java b/src/main/java/net/minecraft/server/EntityVillager.java
-index 7da267d287..1a85e0877e 100644
+index bf019043a9..11dbce51aa 100644
 --- a/src/main/java/net/minecraft/server/EntityVillager.java
 +++ b/src/main/java/net/minecraft/server/EntityVillager.java
-@@ -251,7 +251,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+@@ -258,7 +258,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
      }
  
-     private void g(EntityHuman entityhuman) {
--        this.h(entityhuman);
-+        // this.h(entityhuman); // TerraPaper - disable Hero of the Village and Reputation for trades
+     private void h(EntityHuman entityhuman) {
+-        this.i(entityhuman);
++        // this.i(entityhuman); // TerraPaper - disable Hero of the Village and Reputation for trades
          this.setTradingPlayer(entityhuman);
          this.openTrade(entityhuman, this.getScoreboardDisplayName(), this.getVillagerData().getLevel());
      }

@@ -1,4 +1,4 @@
-From a8335eedfde1d11890acff8c569a7341bcb69e7f Mon Sep 17 00:00:00 2001
+From ad313cee4182b18327328054b236cf568a0d57d5 Mon Sep 17 00:00:00 2001
 From: Joo200 <joo200@terraconia.de>
 Date: Wed, 31 Oct 2012 23:26:58 -0400
 Subject: [PATCH] TerraPaper POM Changes Changed Name from jar-file to
@@ -10,7 +10,7 @@ Subject: [PATCH] TerraPaper POM Changes Changed Name from jar-file to
  2 files changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/pom.xml b/pom.xml
-index e4c63bb76..0f79e1dfe 100644
+index 2b24688310..c9286abaf1 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,12 +1,19 @@
@@ -20,7 +20,7 @@ index e4c63bb76..0f79e1dfe 100644
 +<!--
      <artifactId>paper</artifactId>
      <packaging>jar</packaging>
-     <version>1.15.2-R0.1-SNAPSHOT</version>
+     <version>1.16.1-R0.1-SNAPSHOT</version>
      <name>Paper</name>
      <url>https://papermc.io</url>
 -
@@ -43,7 +43,7 @@ index e4c63bb76..0f79e1dfe 100644
 -        <version>dev-SNAPSHOT</version>
 +        <groupId>de.terraconia</groupId>
 +        <artifactId>terrapaper-parent</artifactId>
-+        <version>dev-1.15.2-R0.1-SNAPSHOT</version>
++        <version>dev-1.16.1-R0.1-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
@@ -54,7 +54,7 @@ index e4c63bb76..0f79e1dfe 100644
 -            <version>${project.version}</version>
 +            <groupId>de.terraconia</groupId>
 +            <artifactId>terrapaper-api</artifactId>
-+            <version>dev-1.15.2-R0.1-SNAPSHOT</version>
++            <version>dev-1.16.1-R0.1-SNAPSHOT</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
@@ -68,7 +68,7 @@ index e4c63bb76..0f79e1dfe 100644
          <plugins>
              <plugin>
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index 674096cab..e822855d1 100644
+index 674096cab1..e822855d1c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {

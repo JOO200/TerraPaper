@@ -3,7 +3,7 @@
 
     <groupId>de.terraconia</groupId>
     <artifactId>terrapaper-parent</artifactId>
-    <version>dev-1.15.2-R0.1-SNAPSHOT</version>
+    <version>dev-1.16.1-R0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>TerraPaper (Parent)</name>
 

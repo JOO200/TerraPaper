@@ -1,44 +1,25 @@
-From 103b214cba0e143eb08eede3bf1493afe7e15de4 Mon Sep 17 00:00:00 2001
+From 0d20033e0437eb7386f721a566bc01188e51e2e5 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Mon, 16 Mar 2020 19:05:13 +0100
 Subject: [PATCH] Disable Sheep Shearing with Dispensers
 
 ---
- .../minecraft/server/IDispenseBehavior.java   | 21 -------------------
- 1 file changed, 21 deletions(-)
+ src/main/java/net/minecraft/server/IDispenseBehavior.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/IDispenseBehavior.java b/src/main/java/net/minecraft/server/IDispenseBehavior.java
-index 3af686c7f..20c9dbac3 100644
+index 660f44975a..81b39b01fb 100644
 --- a/src/main/java/net/minecraft/server/IDispenseBehavior.java
 +++ b/src/main/java/net/minecraft/server/IDispenseBehavior.java
-@@ -832,27 +832,6 @@ public interface IDispenseBehavior {
-                 if (!world.p_()) {
-                     this.dispensed = false;
-                     BlockPosition blockposition = isourceblock.getBlockPosition().shift((EnumDirection) isourceblock.getBlockData().get(BlockDispenser.FACING));
--                    List<EntitySheep> list = world.a(EntitySheep.class, new AxisAlignedBB(blockposition));
--                    Iterator iterator1 = list.iterator();
--
--                    while (iterator1.hasNext()) {
--                        EntitySheep entitysheep = (EntitySheep) iterator1.next();
--
--                        if (entitysheep.isAlive() && !entitysheep.isSheared() && !entitysheep.isBaby()) {
--                            // CraftBukkit start
--                            if (CraftEventFactory.callBlockShearEntityEvent(entitysheep, bukkitBlock, craftItem).isCancelled()) {
--                                continue;
--                            }
--                            // CraftBukkit end
--                            entitysheep.shear();
--                            if (itemstack.isDamaged(1, world.random, (EntityPlayer) null)) {
--                                itemstack.setCount(0);
--                            }
--
--                            this.dispensed = true;
--                            break;
--                        }
--                    }
+@@ -913,7 +913,7 @@ public interface IDispenseBehavior {
+                 }
+             }
+         }));
+-        BlockDispenser.a((IMaterial) Items.SHEARS.getItem(), (IDispenseBehavior) (new DispenseBehaviorShears()));
++        // BlockDispenser.a((IMaterial) Items.SHEARS.getItem(), (IDispenseBehavior) (new DispenseBehaviorShears())); TerraPaper - disable shears in dispensers
+     }
  
-                     if (!this.dispensed) {
-                         IBlockData iblockdata = world.getType(blockposition);
+     static void a(ISourceBlock isourceblock, Entity entity, EnumDirection enumdirection) {
 -- 
 2.24.1.windows.2
 

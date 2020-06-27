@@ -1,4 +1,4 @@
-From 5cbcf4159236ac287ac2d563ad9c7d7d911d81ab Mon Sep 17 00:00:00 2001
+From 40a120369497239ced1b6938034fad2758d15470 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Thu, 16 Apr 2020 21:52:53 +0200
 Subject: [PATCH] Plants not destroyable by dispenser
@@ -8,10 +8,10 @@ Subject: [PATCH] Plants not destroyable by dispenser
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/main/java/net/minecraft/server/IDispenseBehavior.java b/src/main/java/net/minecraft/server/IDispenseBehavior.java
-index 89e8a781b..01eb2fca5 100644
+index 81b39b01fb..13f0019147 100644
 --- a/src/main/java/net/minecraft/server/IDispenseBehavior.java
 +++ b/src/main/java/net/minecraft/server/IDispenseBehavior.java
-@@ -355,7 +355,7 @@ public interface IDispenseBehavior {
+@@ -443,7 +443,7 @@ public interface IDispenseBehavior {
                  int z = blockposition.getZ();
                  IBlockData iblockdata = world.getType(blockposition);
                  Material material = iblockdata.getMaterial();

@@ -1,4 +1,4 @@
-From bf9ee9324b46e9630911e3c8fd9f9c9cf4c0ae89 Mon Sep 17 00:00:00 2001
+From 04463bf792167731e72f53d294362a7b4e24cfd6 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Thu, 26 Mar 2020 16:23:19 +0100
 Subject: [PATCH] Override minecraft gamerules
@@ -10,11 +10,11 @@ Subject: [PATCH] Override minecraft gamerules
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/EntityRaider.java b/src/main/java/net/minecraft/server/EntityRaider.java
-index c0b7b5f07..19156d2a7 100644
+index 751873c20e..5430641ab7 100644
 --- a/src/main/java/net/minecraft/server/EntityRaider.java
 +++ b/src/main/java/net/minecraft/server/EntityRaider.java
 @@ -130,7 +130,7 @@ public abstract class EntityRaider extends EntityMonsterPatrolling {
-                     i = MathHelper.clamp(i, 0, 5);
+                     i = MathHelper.clamp(i, 0, 4);
                      MobEffect mobeffect1 = new MobEffect(MobEffects.BAD_OMEN, 120000, i, false, false, true);
  
 -                    if (!this.world.getGameRules().getBoolean(GameRules.DISABLE_RAIDS)) {
@@ -23,10 +23,10 @@ index c0b7b5f07..19156d2a7 100644
                      }
                  }
 diff --git a/src/main/java/net/minecraft/server/MobSpawnerPhantom.java b/src/main/java/net/minecraft/server/MobSpawnerPhantom.java
-index f488c22ed..509c10812 100644
+index bf4fa17101..fbb94d9a0d 100644
 --- a/src/main/java/net/minecraft/server/MobSpawnerPhantom.java
 +++ b/src/main/java/net/minecraft/server/MobSpawnerPhantom.java
-@@ -12,7 +12,7 @@ public class MobSpawnerPhantom {
+@@ -13,7 +13,7 @@ public class MobSpawnerPhantom implements MobSpawner {
      public int a(WorldServer worldserver, boolean flag, boolean flag1) {
          if (!flag) {
              return 0;
@@ -36,7 +36,7 @@ index f488c22ed..509c10812 100644
          } else {
              Random random = worldserver.random;
 diff --git a/src/main/java/net/minecraft/server/PersistentRaid.java b/src/main/java/net/minecraft/server/PersistentRaid.java
-index 8946cf958..179c538a2 100644
+index 64e5c6d1e4..7a2c59c4a6 100644
 --- a/src/main/java/net/minecraft/server/PersistentRaid.java
 +++ b/src/main/java/net/minecraft/server/PersistentRaid.java
 @@ -32,7 +32,7 @@ public class PersistentRaid extends PersistentBase {
@@ -56,7 +56,7 @@ index 8946cf958..179c538a2 100644
 +        } else if (true || this.b.getGameRules().getBoolean(GameRules.DISABLE_RAIDS)) {
              return null;
          } else {
-             DimensionManager dimensionmanager = entityplayer.world.getWorldProvider().getDimensionManager();
+             DimensionManager dimensionmanager = entityplayer.world.getDimensionManager();
 -- 
 2.24.1.windows.2
 

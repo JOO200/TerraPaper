@@ -1,4 +1,4 @@
-From 39aea79b7386a28b4e14b47da00fa5fba2b1093d Mon Sep 17 00:00:00 2001
+From 5988ea8a4f16ed3dc7eb85776dbe5697d6050648 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Thu, 19 Mar 2020 16:29:00 +0100
 Subject: [PATCH] Disable mob damage by conduits
@@ -8,7 +8,7 @@ Subject: [PATCH] Disable mob damage by conduits
  1 file changed, 40 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/TileEntityConduit.java b/src/main/java/net/minecraft/server/TileEntityConduit.java
-index 07f265b29..4d8576592 100644
+index ade8301227..3b724362da 100644
 --- a/src/main/java/net/minecraft/server/TileEntityConduit.java
 +++ b/src/main/java/net/minecraft/server/TileEntityConduit.java
 @@ -75,7 +75,6 @@ public class TileEntityConduit extends TileEntity implements ITickable {
@@ -40,7 +40,7 @@ index 07f265b29..4d8576592 100644
 -            if (!list.isEmpty()) {
 -                this.target = (EntityLiving) list.get(this.world.random.nextInt(list.size()));
 -            }
--        } else if (!this.target.isAlive() || !this.position.a((BaseBlockPosition) (new BlockPosition(this.target)), 8.0D)) {
+-        } else if (!this.target.isAlive() || !this.position.a((BaseBlockPosition) this.target.getChunkCoordinates(), 8.0D)) {
 -            this.target = null;
 -        }
 -
