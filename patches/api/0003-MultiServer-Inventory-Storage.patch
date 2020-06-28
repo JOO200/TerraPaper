@@ -1,0 +1,96 @@
+From b0fb2ff73eec8c677087ce108157138a89854f28 Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Mon, 29 Jun 2020 00:35:49 +0200
+Subject: [PATCH] MultiServer Inventory Storage
+
+---
+ .../de/terraconia/terrapaper/NBTStorage.java  | 32 +++++++++++++++++++
+ .../terrapaper/NBTStorageProvider.java        | 13 ++++++++
+ src/main/java/org/bukkit/entity/Player.java   | 14 ++++++++
+ 3 files changed, 59 insertions(+)
+ create mode 100644 src/main/java/de/terraconia/terrapaper/NBTStorage.java
+ create mode 100644 src/main/java/de/terraconia/terrapaper/NBTStorageProvider.java
+
+diff --git a/src/main/java/de/terraconia/terrapaper/NBTStorage.java b/src/main/java/de/terraconia/terrapaper/NBTStorage.java
+new file mode 100644
+index 000000000..9ec1e042c
+--- /dev/null
++++ b/src/main/java/de/terraconia/terrapaper/NBTStorage.java
+@@ -0,0 +1,32 @@
++package de.terraconia.terrapaper;
++
++import java.util.Collection;
++import java.util.UUID;
++
++public interface NBTStorage {
++    /**
++     * Utility method to get all keys which should be stored by the plugin
++     * @return all nbt tags stored by the plugin
++     */
++    Collection<String> getKeys();
++
++    /**
++     * Utility method to save nbt tags from entityhuman to a storage like mysql.
++     * @param player the player which should be saved
++     * @param releaseLock whether the lock from the database should be released
++     * @return the rest of nbt tags that should be saved locally
++     */
++    void save(UUID player, byte[] data, boolean releaseLock);
++
++    /**
++     * Utility method to load nbt tags from player from a storage like mysql
++     * this should lock the nbt storage to disable the sync load from another table
++     * @param entityHuman the player which should be loaded
++     * @return the nbt tags from the storage
++     */
++    byte[] load(UUID player) throws NBTStorageNotReady;
++
++    public class NBTStorageNotReady extends RuntimeException {
++
++    }
++}
+diff --git a/src/main/java/de/terraconia/terrapaper/NBTStorageProvider.java b/src/main/java/de/terraconia/terrapaper/NBTStorageProvider.java
+new file mode 100644
+index 000000000..ac21074ee
+--- /dev/null
++++ b/src/main/java/de/terraconia/terrapaper/NBTStorageProvider.java
+@@ -0,0 +1,13 @@
++package de.terraconia.terrapaper;
++
++public class NBTStorageProvider {
++    private static NBTStorage currentNBTStorage = null;
++
++    public static void setNBTStorage(NBTStorage storage) {
++        currentNBTStorage = storage;
++    }
++
++    public static NBTStorage getCurrentNBTStorage() {
++        return currentNBTStorage;
++    }
++}
+diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
+index 2eb312138..0304a0f99 100644
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -1870,4 +1870,18 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+     @Override
+     Spigot spigot();
+     // Spigot end
++
++    /**
++     * TerraPaper: check if the player is waiting for inventories. if the plugin has a inventory availible
++     * player.loadData to load the inventory and setWaitingForInventory to false
++     *
++     * @return whether the player is waiting for his inventory
++     */
++    public boolean isWaitingForInventory();
++
++    /**
++     *
++     * @param waitingForInventory the new state whether the player is waiting for his inventory
++     */
++    public void setWaitingForInventory(boolean waitingForInventory);
+ }
+-- 
+2.24.1.windows.2
+

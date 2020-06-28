@@ -1,0 +1,161 @@
+From d43b6da96668cc9a8e063295daa557e1aa91277c Mon Sep 17 00:00:00 2001
+From: JOO200 <github@joo200.de>
+Date: Mon, 29 Jun 2020 00:35:49 +0200
+Subject: [PATCH] MultiServer Inventory Storage
+
+---
+ .../net/minecraft/server/EntityPlayer.java    |  4 +-
+ .../java/net/minecraft/server/PlayerList.java |  9 ++--
+ .../net/minecraft/server/WorldNBTStorage.java | 44 ++++++++++++++++++-
+ .../craftbukkit/entity/CraftPlayer.java       | 14 +++++-
+ 4 files changed, 65 insertions(+), 6 deletions(-)
+
+diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
+index 93e1fe6f37..124473d56f 100644
+--- a/src/main/java/net/minecraft/server/EntityPlayer.java
++++ b/src/main/java/net/minecraft/server/EntityPlayer.java
+@@ -123,6 +123,8 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+ 
+     boolean needsChunkCenterUpdate; // Paper - no-tick view distance
+ 
++    public boolean waitForInventory = true; // TerraPaper - inventory handling
++
+     public EntityPlayer(MinecraftServer minecraftserver, WorldServer worldserver, GameProfile gameprofile, PlayerInteractManager playerinteractmanager) {
+         super(worldserver, worldserver.getSpawn(), gameprofile);
+         this.spawnDimension = World.OVERWORLD;
+@@ -2106,7 +2108,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+ 
+     @Override
+     public boolean isFrozen() { // Paper - protected > public
+-        return super.isFrozen() || (this.playerConnection != null && this.playerConnection.isDisconnected()); // Paper
++        return super.isFrozen() || this.waitForInventory || (this.playerConnection != null && this.playerConnection.isDisconnected()); // Paper
+     }
+ 
+     @Override
+diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
+index de1d3ba5eb..9eacd4664f 100644
+--- a/src/main/java/net/minecraft/server/PlayerList.java
++++ b/src/main/java/net/minecraft/server/PlayerList.java
+@@ -472,10 +472,13 @@ public abstract class PlayerList {
+         return nbttagcompound1;
+     }
+ 
+-    protected void savePlayerFile(EntityPlayer entityplayer) {
++    // TerraPaper start - better inventory handling
++    protected void savePlayerFile(EntityPlayer entityPlayer) { savePlayerFile(entityPlayer, false); }
++
++    protected void savePlayerFile(EntityPlayer entityplayer, boolean releaseLock) {  // TerraPaper end
+         if (!entityplayer.getBukkitEntity().isPersistent()) return; // CraftBukkit
+         if (!entityplayer.didPlayerJoinEvent) return; // Paper - If we never fired PJE, we disconnected during login. Data has not changed, and additionally, our saved vehicle is not loaded! If we save now, we will lose our vehicle (CraftBukkit bug)
+-        this.playerFileData.save(entityplayer);
++        this.playerFileData.save(entityplayer, releaseLock); // TerraPaper - better inventory handling
+         ServerStatisticManager serverstatisticmanager = (ServerStatisticManager) entityplayer.getStatisticManager(); // CraftBukkit
+ 
+         if (serverstatisticmanager != null) {
+@@ -515,7 +518,7 @@ public abstract class PlayerList {
+         }
+         // Paper end
+ 
+-        this.savePlayerFile(entityplayer);
++        this.savePlayerFile(entityplayer, true); // TerraPaper - inventory handling
+         if (entityplayer.isPassenger()) {
+             Entity entity = entityplayer.getRootVehicle();
+ 
+diff --git a/src/main/java/net/minecraft/server/WorldNBTStorage.java b/src/main/java/net/minecraft/server/WorldNBTStorage.java
+index 41a1b93a9e..cb2eb0f4c3 100644
+--- a/src/main/java/net/minecraft/server/WorldNBTStorage.java
++++ b/src/main/java/net/minecraft/server/WorldNBTStorage.java
+@@ -26,10 +26,33 @@ public class WorldNBTStorage {
+         this.playerDir.mkdirs();
+     }
+ 
+-    public void save(EntityHuman entityhuman) {
++    public void save(EntityHuman entityhuman, boolean releaseLock) {
+         if(!com.destroystokyo.paper.PaperConfig.savePlayerData) return; // Paper - Make player data saving configurable
+         try {
+             NBTTagCompound nbttagcompound = entityhuman.save(new NBTTagCompound());
++
++            // TerraPaper start - better inventory storage
++            de.terraconia.terrapaper.NBTStorage storage = de.terraconia.terrapaper.NBTStorageProvider.getCurrentNBTStorage();
++            if(storage != null) {
++                java.util.Collection<String> keys = storage.getKeys();
++                if(!keys.isEmpty()) {
++                    NBTTagCompound pluginSave = new NBTTagCompound();
++                    keys.stream().filter(tag -> nbttagcompound.map.get(tag) != null).
++                            forEach(tag -> pluginSave.map.put(tag, nbttagcompound.map.get(tag)));
++
++                    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++                    java.io.DataOutputStream stream = new java.io.DataOutputStream(baos);
++                    try {
++                        NBTCompressedStreamTools.writeNBT(pluginSave, (java.io.DataOutput)stream);
++                    } catch (java.io.IOException e) {
++                        WorldNBTStorage.LOGGER.error("Failed to save player data with external storage for {}", entityhuman.getName(), e);
++                    }
++
++                    storage.save(entityhuman.getUniqueID(), baos.toByteArray(), releaseLock);
++                }
++            }
++            // TerraPaper end
++
+             File file = File.createTempFile(entityhuman.getUniqueIDString() + "-", ".dat", this.playerDir);
+ 
+             NBTCompressedStreamTools.a(nbttagcompound, (OutputStream) (new FileOutputStream(file)));
+@@ -71,6 +94,25 @@ public class WorldNBTStorage {
+                 file.renameTo( new File( file.getPath() + ".offline-read" ) );
+             }
+             // Spigot End
++
++            // TerraPaper start - better inventories
++            NBTTagCompound storageCompound = null;
++            de.terraconia.terrapaper.NBTStorage storage = de.terraconia.terrapaper.NBTStorageProvider.getCurrentNBTStorage();
++            if (storage != null) {
++                try {
++                    byte[] data = storage.load(entityhuman.getUniqueID());
++                    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(data);
++                    java.io.DataInputStream stream = new java.io.DataInputStream(bais);
++                    storageCompound = NBTCompressedStreamTools.readNBT(stream);
++                    if(entityhuman instanceof EntityPlayer) ((EntityPlayer) entityhuman).waitForInventory = false;
++                } catch (de.terraconia.terrapaper.NBTStorage.NBTStorageNotReady ignored) {
++                    // should be completed by the plugin in a later stage
++                }
++            }
++            if(storageCompound != null) {
++                if(nbttagcompound == null) nbttagcompound = storageCompound;
++                else nbttagcompound.map.putAll(storageCompound.map);
++            }
+         } catch (Exception exception) {
+             WorldNBTStorage.LOGGER.warn("Failed to load player data for {}", entityhuman.getDisplayName().getString());
+         }
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index 2e2b28b145..f968735509 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -851,7 +851,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+ 
+     @Override
+     public void saveData() {
+-        server.getHandle().playerFileData.save(getHandle());
++        server.getHandle().playerFileData.save(getHandle(), false); // TerraPaper - inventory handling
+     }
+ 
+     @Deprecated
+@@ -2127,4 +2127,16 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         return spigot;
+     }
+     // Spigot end
++
++    // TerraPaper start - better inventory handling
++    @Override
++    public boolean isWaitingForInventory() {
++        return getHandle().waitForInventory;
++    }
++
++    @Override
++    public void setWaitingForInventory(boolean waitingForInventory) {
++        getHandle().waitForInventory = waitingForInventory;
++    }
++    // TerraPaper end
+ }
+-- 
+2.24.1.windows.2
+
