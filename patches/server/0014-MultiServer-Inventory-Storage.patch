@@ -1,4 +1,4 @@
-From 56c57eb1b7466ce0449063ed497dcfe90e10b017 Mon Sep 17 00:00:00 2001
+From efd4e8b17ce659d9facfd2640619bb81e17713aa Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Mon, 29 Jun 2020 00:35:49 +0200
 Subject: [PATCH] MultiServer Inventory Storage
@@ -6,9 +6,9 @@ Subject: [PATCH] MultiServer Inventory Storage
 ---
  .../net/minecraft/server/EntityPlayer.java    |  4 +-
  .../java/net/minecraft/server/PlayerList.java |  9 ++--
- .../net/minecraft/server/WorldNBTStorage.java | 44 ++++++++++++++++++-
+ .../net/minecraft/server/WorldNBTStorage.java | 47 ++++++++++++++++++-
  .../craftbukkit/entity/CraftPlayer.java       | 14 +++++-
- 4 files changed, 65 insertions(+), 6 deletions(-)
+ 4 files changed, 68 insertions(+), 6 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
 index eeed8edfdf..33855d5724 100644
@@ -62,10 +62,10 @@ index 3c5ba8f2fd..e1f058347b 100644
              Entity entity = entityplayer.getRootVehicle();
  
 diff --git a/src/main/java/net/minecraft/server/WorldNBTStorage.java b/src/main/java/net/minecraft/server/WorldNBTStorage.java
-index 41a1b93a9e..cb2eb0f4c3 100644
+index 41a1b93a9e..a4d4bcbd08 100644
 --- a/src/main/java/net/minecraft/server/WorldNBTStorage.java
 +++ b/src/main/java/net/minecraft/server/WorldNBTStorage.java
-@@ -26,10 +26,33 @@ public class WorldNBTStorage {
+@@ -26,10 +26,35 @@ public class WorldNBTStorage {
          this.playerDir.mkdirs();
      }
  
@@ -81,8 +81,10 @@ index 41a1b93a9e..cb2eb0f4c3 100644
 +                java.util.Collection<String> keys = storage.getKeys();
 +                if(!keys.isEmpty()) {
 +                    NBTTagCompound pluginSave = new NBTTagCompound();
-+                    keys.stream().filter(tag -> nbttagcompound.map.get(tag) != null).
-+                            forEach(tag -> pluginSave.map.put(tag, nbttagcompound.map.get(tag)));
++                    for (String key : keys) {
++                        NBTBase nbtBase = nbttagcompound.map.get(key);
++                        if(nbtBase != null) pluginSave.map.put(key, nbtBase);
++                    }
 +
 +                    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
 +                    java.io.DataOutputStream stream = new java.io.DataOutputStream(baos);
@@ -100,7 +102,7 @@ index 41a1b93a9e..cb2eb0f4c3 100644
              File file = File.createTempFile(entityhuman.getUniqueIDString() + "-", ".dat", this.playerDir);
  
              NBTCompressedStreamTools.a(nbttagcompound, (OutputStream) (new FileOutputStream(file)));
-@@ -71,6 +94,25 @@ public class WorldNBTStorage {
+@@ -71,6 +96,26 @@ public class WorldNBTStorage {
                  file.renameTo( new File( file.getPath() + ".offline-read" ) );
              }
              // Spigot End
@@ -123,6 +125,7 @@ index 41a1b93a9e..cb2eb0f4c3 100644
 +                if(nbttagcompound == null) nbttagcompound = storageCompound;
 +                else nbttagcompound.map.putAll(storageCompound.map);
 +            }
++            // TerraPaper - end
          } catch (Exception exception) {
              WorldNBTStorage.LOGGER.warn("Failed to load player data for {}", entityhuman.getDisplayName().getString());
          }
