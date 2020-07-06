@@ -1,4 +1,4 @@
-From ca6f2566d49b3e73be5677f5a0c28af12fcd0bba Mon Sep 17 00:00:00 2001
+From e87a22d5f40ddc23ea1b963d76b3d0e5cf9835f6 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Mon, 29 Jun 2020 00:35:49 +0200
 Subject: [PATCH] MultiServer Inventory Storage
@@ -11,7 +11,7 @@ Subject: [PATCH] MultiServer Inventory Storage
  4 files changed, 68 insertions(+), 6 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
-index eeed8edfdf..33855d5724 100644
+index 8fd3c913ac..d9e7772f63 100644
 --- a/src/main/java/net/minecraft/server/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/EntityPlayer.java
 @@ -123,6 +123,8 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
@@ -33,10 +33,10 @@ index eeed8edfdf..33855d5724 100644
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index 3c5ba8f2fd..e1f058347b 100644
+index 3c2f1f140c..35ef9ddf8b 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
-@@ -468,10 +468,13 @@ public abstract class PlayerList {
+@@ -479,10 +479,13 @@ public abstract class PlayerList {
          return nbttagcompound1;
      }
  
@@ -52,7 +52,7 @@ index 3c5ba8f2fd..e1f058347b 100644
          ServerStatisticManager serverstatisticmanager = (ServerStatisticManager) entityplayer.getStatisticManager(); // CraftBukkit
  
          if (serverstatisticmanager != null) {
-@@ -511,7 +514,7 @@ public abstract class PlayerList {
+@@ -522,7 +525,7 @@ public abstract class PlayerList {
          }
          // Paper end
  

@@ -1,4 +1,4 @@
-From 45fe5c1195823b32de9d8832f0d9d4ff7a63fcb3 Mon Sep 17 00:00:00 2001
+From 710b858541b4a88242c64afb6591ecccdd948be3 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Sat, 7 Mar 2020 22:53:11 +0100
 Subject: [PATCH] Limited pushable blocks from pistons
@@ -10,10 +10,10 @@ Optimized paper config option
  2 files changed, 9 insertions(+)
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 3b0f3127bc..05cac2b2a8 100644
+index 741c06a27e..b41e1d1268 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-@@ -422,6 +422,12 @@ public class PaperConfig {
+@@ -429,6 +429,12 @@ public class PaperConfig {
          consoleHasAllPermissions = getBoolean("settings.console-has-all-permissions", consoleHasAllPermissions);
      }
  
@@ -25,7 +25,7 @@ index 3b0f3127bc..05cac2b2a8 100644
 +
      public static boolean allowPistonDuplication;
      private static void allowPistonDuplication() {
-         allowPistonDuplication = getBoolean("settings.unsupported-settings.allow-piston-duplication", config.getBoolean("settings.unsupported-settings.allow-tnt-duplication", false));
+         config.set("settings.unsupported-settings.allow-piston-duplication-readme", "This setting controls if player should be able to use TNT duplication, but this also allows duplicating carpet, rails and potentially other items");
 diff --git a/src/main/java/net/minecraft/server/BlockBase.java b/src/main/java/net/minecraft/server/BlockBase.java
 index ff770a3b0e..8c0a07cb70 100644
 --- a/src/main/java/net/minecraft/server/BlockBase.java
