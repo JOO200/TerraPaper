@@ -1,4 +1,4 @@
-From b0fb2ff73eec8c677087ce108157138a89854f28 Mon Sep 17 00:00:00 2001
+From e8eba89bc635c41747f93f48ff25eeffca5ad31a Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Mon, 29 Jun 2020 00:35:49 +0200
 Subject: [PATCH] MultiServer Inventory Storage
@@ -6,8 +6,8 @@ Subject: [PATCH] MultiServer Inventory Storage
 ---
  .../de/terraconia/terrapaper/NBTStorage.java  | 32 +++++++++++++++++++
  .../terrapaper/NBTStorageProvider.java        | 13 ++++++++
- src/main/java/org/bukkit/entity/Player.java   | 14 ++++++++
- 3 files changed, 59 insertions(+)
+ src/main/java/org/bukkit/entity/Player.java   | 21 ++++++++++++
+ 3 files changed, 66 insertions(+)
  create mode 100644 src/main/java/de/terraconia/terrapaper/NBTStorage.java
  create mode 100644 src/main/java/de/terraconia/terrapaper/NBTStorageProvider.java
 
@@ -69,10 +69,10 @@ index 000000000..ac21074ee
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 2eb312138..0304a0f99 100644
+index 2eb312138..60fd2fd0e 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1870,4 +1870,18 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1870,4 +1870,25 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
@@ -90,6 +90,13 @@ index 2eb312138..0304a0f99 100644
 +     * @param waitingForInventory the new state whether the player is waiting for his inventory
 +     */
 +    public void setWaitingForInventory(boolean waitingForInventory);
++
++    /**
++     * set a inventory with raw data
++     *
++     * @param inventory byte array of nbt tags from database
++     */
++    public void setInventory(byte[] inventory);
  }
 -- 
 2.24.1.windows.2

@@ -1,17 +1,17 @@
-From e87a22d5f40ddc23ea1b963d76b3d0e5cf9835f6 Mon Sep 17 00:00:00 2001
+From e39d00e6a1e17ccc5585b929f7aca18c2d72b633 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Mon, 29 Jun 2020 00:35:49 +0200
 Subject: [PATCH] MultiServer Inventory Storage
 
 ---
- .../net/minecraft/server/EntityPlayer.java    |  4 +-
+ .../net/minecraft/server/EntityPlayer.java    | 24 +++++++++-
  .../java/net/minecraft/server/PlayerList.java |  9 ++--
  .../net/minecraft/server/WorldNBTStorage.java | 47 ++++++++++++++++++-
- .../craftbukkit/entity/CraftPlayer.java       | 14 +++++-
- 4 files changed, 68 insertions(+), 6 deletions(-)
+ .../craftbukkit/entity/CraftPlayer.java       | 18 ++++++-
+ 4 files changed, 92 insertions(+), 6 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
-index 8fd3c913ac..d9e7772f63 100644
+index 0f9550fb87..db9a843a1a 100644
 --- a/src/main/java/net/minecraft/server/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/EntityPlayer.java
 @@ -123,6 +123,8 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
@@ -32,6 +32,31 @@ index 8fd3c913ac..d9e7772f63 100644
      }
  
      @Override
+@@ -2151,4 +2153,24 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+         return (CraftPlayer) super.getBukkitEntity();
+     }
+     // CraftBukkit end
++
++    // TerraPaper start - Inventory
++    public void setInventory(byte[] inventory) {
++        NBTTagCompound existing = new NBTTagCompound();
++        NBTTagCompound storageCompound = new NBTTagCompound();
++        saveData(existing);
++
++        try {
++            java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(inventory);
++            java.io.DataInputStream stream = new java.io.DataInputStream(bais);
++            storageCompound = NBTCompressedStreamTools.readNBT(stream);
++        } catch (java.io.IOException ex) {
++            Bukkit.getLogger().warning("Error while applying entity data.");
++        }
++        existing.map.putAll(storageCompound.map); // MERGE
++
++        int i = existing.hasKeyOfType("DataVersion", 3) ? existing.getInt("DataVersion") : -1;
++        this.load(GameProfileSerializer.a(DataConverterRegistry.getDataFixer(), DataFixTypes.PLAYER, existing, i));
++    }
++    // TerraPaper end
+ }
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
 index 3c2f1f140c..35ef9ddf8b 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
@@ -130,7 +155,7 @@ index 41a1b93a9e..a4d4bcbd08 100644
              WorldNBTStorage.LOGGER.warn("Failed to load player data for {}", entityhuman.getDisplayName().getString());
          }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 8f2b84a84a..4cbef1bc91 100644
+index 8f2b84a84a..6e0cb529b4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -853,7 +853,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -142,7 +167,7 @@ index 8f2b84a84a..4cbef1bc91 100644
      }
  
      @Deprecated
-@@ -2149,4 +2149,16 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2149,4 +2149,20 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return spigot;
      }
      // Spigot end
@@ -156,6 +181,10 @@ index 8f2b84a84a..4cbef1bc91 100644
 +    @Override
 +    public void setWaitingForInventory(boolean waitingForInventory) {
 +        getHandle().waitForInventory = waitingForInventory;
++    }
++
++    public void setInventory(byte[] inventory) {
++        getHandle().setInventory(inventory);
 +    }
 +    // TerraPaper end
  }
