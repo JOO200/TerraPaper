@@ -1,6 +1,6 @@
-# EmpireCraft #
+# TerraPaper #
 ## What ##
-EmpireCraft is a fork of Spigot used by the [Empire Minecraft](http://ref.emc.gs/Aikar?gam=EmpireCraft) Server.
+TerraPaper is a fork of Paper used by the [Terraconia](https://terraconia.de) Server.
 
 It contains many gameplay changes to suit our server, but more importantly, contains new performance improvements pending
 testing to be contributed to Spigot / Sponge.
@@ -27,7 +27,7 @@ By contributing it upstream, we would give up that power.
 So that is why we have many extremely useful API's that are not PR'd upstream
 
 ## LICENSE / Support / Usage of Patches ##
-All patches written by Aikar, Starlis LLC, Contractors of Starlis LLC that has been included inside of EmpireCraft
+All patches written by Aikar, Starlis LLC, Contractors of Starlis LLC or Contractors from Terraconia that has been included inside of TerraPaper
 are licensed MIT, and are free to be used in your own fork.
 
 We offer ABSOLUTELY NO SUPPORT for these patches. If you wish to use them, you must take the effect to extract them
@@ -57,7 +57,7 @@ Run `scripts/applypatches` then `scripts/rebuildpatches` immediately after
 Generates an mc-dev folder that can be added to IDE for the other mc-dev files located in minecraft-server.jar
 
 ### scripts/rebuildpatches ###
-Rebuilds patch state from the EmpireCraft-* repo's current state. Automatically handles patch deletion and renaming
+Rebuilds patch state from the TerraPaper-* repo's current state. Automatically handles patch deletion and renaming
 for you unlike Spigots version of these scripts.
 
 ### scripts/applypatches ###
