@@ -1,4 +1,4 @@
-From e39d00e6a1e17ccc5585b929f7aca18c2d72b633 Mon Sep 17 00:00:00 2001
+From 3b3b728be96981dd689297a45df95c9c551e2746 Mon Sep 17 00:00:00 2001
 From: JOO200 <github@joo200.de>
 Date: Mon, 29 Jun 2020 00:35:49 +0200
 Subject: [PATCH] MultiServer Inventory Storage
@@ -11,7 +11,7 @@ Subject: [PATCH] MultiServer Inventory Storage
  4 files changed, 92 insertions(+), 6 deletions(-)
 
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
-index 0f9550fb87..db9a843a1a 100644
+index 0f9550fb87..f75c506d44 100644
 --- a/src/main/java/net/minecraft/server/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/EntityPlayer.java
 @@ -123,6 +123,8 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
@@ -41,7 +41,7 @@ index 0f9550fb87..db9a843a1a 100644
 +    public void setInventory(byte[] inventory) {
 +        NBTTagCompound existing = new NBTTagCompound();
 +        NBTTagCompound storageCompound = new NBTTagCompound();
-+        saveData(existing);
++        existing = save(existing);
 +
 +        try {
 +            java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(inventory);
